@@ -1,1 +1,1 @@
-web: gunicorn test_plotly_app:server
+web: gunicorn test_plotly_app.py:server
