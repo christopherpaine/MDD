@@ -1,0 +1,5 @@
+it is generally a good idea to keep the code that you run locally and the code that you deploy to a production environment (such as Heroku) as similar as possible. This will make it easier to test and debug your application locally before deploying it, and will also make it easier to maintain the codebase over time.
+
+To achieve this, you can use a technique called configuration management to manage the differences between the local and production environments. This involves using configuration files or environment variables to store values that may vary between the local and production environments, such as database credentials or API keys.
+
+For example, you could use a configuration file to store the database credentials for your local environment, and use environment variables to store the credentials for the production environment. This way, you can keep the same codebase for both environments, and simply change the configuration or environment variables when you deploy the app to production
