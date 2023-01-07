@@ -19,6 +19,7 @@ import plotly.express as px
 
 # Initialize the app
 app = dash.Dash()
+server = app.server
 
 # Create a plotly figure
 fig = px.line(df, x='Age x', y='Duration 0')
