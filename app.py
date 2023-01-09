@@ -98,7 +98,7 @@ fig = go.Figure(data=[trace_1, trace_2, trace_3])
 # Initialize the app
 app = dash.Dash()
 server = app.server
-
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 
 
