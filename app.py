@@ -71,6 +71,41 @@ options_td_3 = []
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#-------------------------------------------------------------------------------------
+
+#--------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
 #---------------------------------------
 
 # Import the MySQL connector
@@ -84,13 +119,6 @@ df = pd.read_excel('Mortality_tables/ams00.xls')
 #print(df.head)
 
 #-------------------------------------------------------------
-import dash
-import dash_core_components as dcc
-import dash_html_components as html
-import plotly.express as px
-from dash.dependencies import Input, Output
-import dash_daq as daq
-from layout_components import get_slider
 
 
 
@@ -145,7 +173,7 @@ app.layout = html.Div([
     ),
     # the slider
 # Add a slider component
-    get_slider(df),
+    
     # the label
     html.Div(id='output-1')  # give the label an ID
 
