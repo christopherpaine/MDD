@@ -247,6 +247,7 @@ Disclaimer_card =  dbc.Card(
 #------------------------------------------------------------------------------------
 #                              CALLBACK FUNCTIONS
 #------------------------------------------------------------------------------------
+'''
 @app.callback(
     [dash.dependencies.Output('table_dropdown_1', 'options'),dash.dependencies.Output('description_dropdown_1', 'options')],
     [dash.dependencies.Input('dsource_dropdown_1', 'value'),dash.dependencies.Input('description_dropdown_1', 'value')]
@@ -385,7 +386,7 @@ def update_figure(sheet_name1, sheet_name2, sheet_name3, chart_type,slider_1,sli
                     )
 
     return fig,max_select_dset_1,max_select_dset_2,max_select_dset_3
-
+'''
 
 
 # --------------------------------------------------------------------------------------
