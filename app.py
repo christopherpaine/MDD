@@ -64,7 +64,40 @@ options_td_3 = []
 #                       OBJECTS FOR GRAPH
 #---------------------------------------------------------------------------------
 
+'''
+df_dset_1  = pd.read_excel('Mortality_tables/00series.xls', sheet_name='AMC00')
+#fig = px.line(df_dset_1, x="Age x", y="Duration 0")
+#fig = px.line()
+trace_1 = go.Scatter(x=df_dset_1['Age x'], y=df_dset_1['Duration 0'])
+# Add the trace to the plot
+#fig.add_trace(trace)
 
+
+df_dset_2  = pd.read_excel('Mortality_tables/00series.xls', sheet_name='AMS00')
+# Create a trace object for df_dset_2 using the go.Scatter constructor
+trace_2 = go.Scatter(x=df_dset_2['Age x'], y=df_dset_2['Duration 0'])
+# Add the trace to the plot
+#fig.add_trace(trace)
+
+df_dset_3  = pd.read_excel('Mortality_tables/00series.xls', sheet_name='AMN00')
+# Create a trace object for df_dset_2 using the go.Scatter constructor
+trace_3 = go.Scatter(x=df_dset_3['Age x'], y=df_dset_3['Duration 0'])
+# Add the trace to the plot
+#fig.add_trace(trace)
+
+fig = go.Figure(data=[trace_1, trace_2, trace_3])
+
+'''
+
+
+
+#-------------------------------------------------------------------------------------
+
+#--------------------------------------------------------------------------
+
+# Initialize the app
+app = dash.Dash()
+server = app.server
 
 
 
@@ -108,23 +141,8 @@ options_td_3 = []
 
 #---------------------------------------
 
-# Import the MySQL connector
-import mysql.connector
-import pandas as pd
-
-# Load the data
-df = pd.read_excel('Mortality_tables/ams00.xls')
-
-#print what has been retrieved
-#print(df.head)
-
-#-------------------------------------------------------------
-
-
-
 # Initialize the app
-app = dash.Dash()
-server = app.server
+
 
 #Create a dropdown menu for selecting the chart type
 chart_type_menu = dcc.Dropdown(
