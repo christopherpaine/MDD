@@ -126,9 +126,6 @@ df = pd.read_excel('Mortality_tables/ams00.xls')
 app = dash.Dash()
 server = app.server
 
-# Create a plotly figure
-fig = px.line(df, x='Age x', y='Duration 0')
-
 #Create a dropdown menu for selecting the chart type
 chart_type_menu = dcc.Dropdown(
     id='chart-type-menu',
@@ -139,44 +136,10 @@ chart_type_menu = dcc.Dropdown(
     value='line'
 )
 
-@app.callback(Output('chart', 'figure'),
-              [Input('chart-type-menu', 'value')])
-def update_chart(chart_type):
-    if chart_type == 'line':
-        fig = px.line(df, x='Age x', y='Duration 0')
-    else:
-        fig = px.bar(df, x='Age x', y='Duration 0')
-    return fig
-
-# callback to update the slider label
-@app.callback(
-    Output('output-1', 'children'),  # specify the output and the property to update
-    [Input('slider-1', 'value')]  # specify the input
-)
-def update_output(value):
-    return f'Age: {value}'
-
-
-
 
 # Create a Dash layout
 app.layout = html.Div([
-    chart_type_menu,
-    dcc.Graph(id='chart'),
-        # Add a slider component
-    dcc.Slider(
-        id='slider',
-        min=df['Age x'].min(),
-        max=df['Age x'].max(),
-        step=10,
-        value=df['Age x'].min()
-    ),
-    # the slider
-# Add a slider component
-    
-    # the label
-    html.Div(id='output-1')  # give the label an ID
-
+    chart_type_menu
 
 ])
 
