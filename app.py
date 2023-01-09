@@ -1,3 +1,28 @@
+#----------------------------------------------------------------------------------------
+#                      LOAD IN THE DATA
+#---------------------------------------------------------------------------------------------
+#
+import mysql.connector
+import pandas as pd
+import dash
+import dash_core_components as dcc
+import dash_html_components as html
+import plotly.express as px
+from dash.dependencies import Input, Output
+import dash_daq as daq
+
+import dash_bootstrap_components as dbc
+import plotly.graph_objs as go
+
+
+
+
+
+
+
+
+#---------------------------------------
+
 # Import the MySQL connector
 import mysql.connector
 import pandas as pd
