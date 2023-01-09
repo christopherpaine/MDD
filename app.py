@@ -29,6 +29,41 @@ for worksheet in worksheets:
     df = xlsx.parse(worksheet)
     dfs[worksheet] = df
 
+#------------------------------------------------------------------------------------
+#                   CREATE OPTIONS FOR DROPDOWNs
+#------------------------------------------------------------------------------------
+
+#tables for 00series
+series00_tables = []
+for i, option in enumerate(worksheets):
+    series00_tables.append({'label': option, 'value': i+1})
+
+#tables for 00series
+df_filtered = df_table_summary[df_table_summary['Datasource'] == 'IfoA 00 Series']
+table_descriptions = df_filtered['Table Description'].tolist()
+
+#dropdown options for datasources
+datasource_list = df_table_summary['Datasource'].unique().tolist()
+
+dsource_dropdown_options = []
+for i, option in enumerate(datasource_list):
+    dsource_dropdown_options.append({'label': option, 'value': i+1})
+
+print(dsource_dropdown_options)
+
+
+
+#options for various dropdowns
+options_dd_1 = []
+options_dd_2 = []
+options_dd_3 = []
+options_td_1 = []
+options_td_2 = []
+options_td_3 = []
+#-----------------------------------------------------------------------------------
+#                       OBJECTS FOR GRAPH
+#---------------------------------------------------------------------------------
+
 
 
 
