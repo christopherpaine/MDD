@@ -46,7 +46,7 @@ import pandas as pd
 df = pd.read_excel('Mortality_tables/ams00.xls')
 
 #print what has been retrieved
-print(df.head)
+#print(df.head)
 
 #-------------------------------------------------------------
 import dash
