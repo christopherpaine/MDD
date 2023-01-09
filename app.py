@@ -127,7 +127,7 @@ dataset1_card = dbc.Card(
                                             dbc.Label("Table"),
                                             dcc.Dropdown(id='table_dropdown_1',options=options_td_1,value=None,placeholder='Please Select',style={'font-size':'12px'}),
                                             html.Br(),
-                                            dbc.Label("Number of Select Years (max value is ultimate)"),
+                                            dbc.Label("Number of Select Years (max = ultimate)"),
                                             dcc.Slider(id='select_slider_1',min=0, max=5, value=0,step=1, marks={i: str(i) for i in range(1,6)})
                                 ]
                             )
@@ -153,7 +153,7 @@ dataset2_card = dbc.Card(
                                             dbc.Label("Table"),
                                             dcc.Dropdown(id='table_dropdown_2',options=[],value=None,style={'font-size':'12px'}),
                                             html.Br(),
-                                            dbc.Label("Number of Select Years (max value is ultimate)"),
+                                            dbc.Label("Number of Select Years (max = ultimate)"),
                                             dcc.Slider(id='select_slider_2',min=0, max=5, value=0,step=1, marks={i: str(i) for i in range(6)})
                                 ]
                             )
@@ -180,7 +180,7 @@ dataset3_card = dbc.Card(
                                             dbc.Label("Table"),
                                             dcc.Dropdown(id='table_dropdown_3',options=[],value=None,style={'font-size':'12px'}),
                                             html.Br(),
-                                            dbc.Label("Number of Select Years (max value is ultimate)"),
+                                            dbc.Label("Number of Select Years (max = ultimate)"),
                                             dcc.Slider(id='select_slider_3',min=0, max=5, value=0,step=1, marks={i: str(i) for i in range(6)})
                                 ]
                             )
