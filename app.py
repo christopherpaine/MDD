@@ -10,7 +10,7 @@ import dash_html_components as html
 import plotly.express as px
 from dash.dependencies import Input, Output
 import dash_daq as daq
-from layout_components import get_slider
+
 import dash_bootstrap_components as dbc
 import plotly.graph_objs as go
 
