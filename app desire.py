@@ -64,7 +64,7 @@ options_td_3 = []
 #                       OBJECTS FOR GRAPH
 #---------------------------------------------------------------------------------
 
-
+'''
 df_dset_1  = pd.read_excel('Mortality_tables/00series.xls', sheet_name='AMC00')
 #fig = px.line(df_dset_1, x="Age x", y="Duration 0")
 #fig = px.line()
@@ -87,7 +87,7 @@ trace_3 = go.Scatter(x=df_dset_3['Age x'], y=df_dset_3['Duration 0'])
 
 fig = go.Figure(data=[trace_1, trace_2, trace_3])
 
-
+'''
 
 
 
@@ -226,7 +226,7 @@ type_of_graph_card = dbc.Card(
 output_card = dbc.Card(
             [
                 
-                dcc.Graph(figure=fig,id='graph'),
+ #               dcc.Graph(figure=fig,id='graph'),
                 dbc.Label("Truncate Axis"),
                 dcc.RangeSlider(0,120,10,value=[0,120],
                     id='graph_slider',allowCross=False,pushable=20
@@ -247,7 +247,7 @@ Disclaimer_card =  dbc.Card(
 #------------------------------------------------------------------------------------
 #                              CALLBACK FUNCTIONS
 #------------------------------------------------------------------------------------
-
+'''
 @app.callback(
     [dash.dependencies.Output('table_dropdown_1', 'options'),dash.dependencies.Output('description_dropdown_1', 'options')],
     [dash.dependencies.Input('dsource_dropdown_1', 'value'),dash.dependencies.Input('description_dropdown_1', 'value')]
@@ -386,7 +386,7 @@ def update_figure(sheet_name1, sheet_name2, sheet_name3, chart_type,slider_1,sli
                     )
 
     return fig,max_select_dset_1,max_select_dset_2,max_select_dset_3
-
+'''
 
 
 # --------------------------------------------------------------------------------------
