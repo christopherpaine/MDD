@@ -15,7 +15,7 @@ import dash_bootstrap_components as dbc
 import plotly.graph_objs as go
 
 # Load the summary table data
-df_table_summary = pd.read_excel('Mortality_tables\Table_Summary.xlsx')
+df_table_summary = pd.read_excel('Mortality_tables/Table_Summary.xlsx')
 
 # Open the Excel file
 xlsx = pd.ExcelFile('Mortality_tables/00series.xls')
