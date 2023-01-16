@@ -271,6 +271,18 @@ Disclaimer_card =  dbc.Card(
 #------------------------------------------------------------------------------------
 #                              CALLBACK FUNCTIONS
 #------------------------------------------------------------------------------------
+# we have 4 callback functions.  3 of them relate to changes that occur when the datasource is updated and also the table description are updated.  the inputs are these 2 aforementioned items.  
+# If HMD datasource is selected we display the year_block year sliders.
+# other outputs options for the description and table dropdowns... which naturally result from the choice of datasource
+
+# the other callback function is to update the figure....  however it is doing a whole lot more than just this
+# it registers a change in the table name, a change in chart type, a change in the value on the select slider
+# a change on any of the chart sliders for truncating axes
+# 
+# a thing that is proving tricky to implement is to get rid of the 3rd input... the table name itself 
+# as would be a more user friendly interface with only the table description
+
+
 
 @app.callback(
     [dash.dependencies.Output('table_dropdown_1', 'options'),dash.dependencies.Output('description_dropdown_1', 'options'),Output(component_id='year_block_1', component_property='style')],
