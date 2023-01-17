@@ -78,6 +78,7 @@ options_td_3 = []
 #IFOA TABLES
 #---------------------------
 #tables for 00series
+#WE MAY BE ABLE TO GET RID OF THIS AS CREATING FUNCTION TO PROVIDE DESCRIPTION LIST
 df_filtered = df_table_summary[df_table_summary['Datasource'] == 'IfoA 00 Series']
 table_descriptions = df_filtered['Table Description'].tolist()
 
@@ -109,6 +110,14 @@ def get_datasource_from_description(table_description):
     result = df_table_summary.loc[df_table_summary['Table Description'] == table_description,'Datasource']
     return result.values.tolist()
 
+def get_table_description_list_from_datasource(dsource):
+    print("get_table_description_list_from_datasource called")
+    result = df_table_summary.loc[df_table_summary['Datasource'] == dsource,'Table Description']
+    print("dsource fed into function is")
+    print(dsource)
+    print("head of the filtered dataframe is")
+    print(result.head)
+    return result.values.tolist()
 
 #functions that go to other datas
 
@@ -119,10 +128,14 @@ def get_dataframe_from_description(table_description):
     #   for the HMD......    
     if get_datasource_from_description(table_description) == ['IfoA 00 Series']:
         return pd.read_excel(get_datasource_location_from_description(table_description)[0], sheet_name=get_table_name_from_description(table_description)[0])
+    elif get_datasource_from_description(table_description) == ['Human Mortality Database']:
+        print(pd.read_csv(get_datasource_location_from_description(table_description)[0]).head)
+        return pd.read_csv(get_datasource_location_from_description(table_description)[0])
     else:
         print("get_dataframe_from_description function aint returning proper")
         return [0]
     
+
 
 
 
@@ -321,12 +334,11 @@ Disclaimer_card =  dbc.Card(
 )
 def update_table1_options_from_dsource(dsource,descrip):
     print("def update_table1_options_from_dsource has been called {}".format(datetime.now()))
-    print("         dsource is:"+str(dsource))
-    if dsource == 1:
-        return get_table_name_from_description(descrip), table_descriptions,{'display': 'none'}
-    elif dsource == 2:
-        year_block_1 = {'display': 'block'}
-        return [{'label': 'HMD tables to be added Q1 2023'},{'label': 'HMD tables to be added Q1 2023'},year_block_1]
+    if dsource_dropdown_options[dsource-1]['label'] == 'IfoA 00 Series':
+        return get_table_name_from_description(descrip), get_table_description_list_from_datasource(dsource_dropdown_options[dsource-1]['label']),{'display': 'none'}
+    elif dsource_dropdown_options[dsource-1]['label'] == 'Human Mortality Database':
+        return get_table_name_from_description(descrip), get_table_description_list_from_datasource(dsource_dropdown_options[dsource-1]['label']),{'display': 'block'}
+        #return [{'label': 'HMD tables to be added Q1 2023'},{'label': 'HMD tables to be added Q1 2023'},year_block_1]
     else:
         year_block_1 = {'display': 'none'}
         return [{'label': 'ONS tables to be added Q1 2023'},{'label': 'ONS tables to be added Q1 2023'},year_block_1]
