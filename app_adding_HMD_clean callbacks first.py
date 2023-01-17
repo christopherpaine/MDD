@@ -318,9 +318,7 @@ def update_table1_options_from_dsource(dsource,descrip):
     [dash.dependencies.Input('dsource_dropdown_2', 'value'),dash.dependencies.Input('description_dropdown_2', 'value')]
 )
 def update_table2_options_from_dsource(dsource,descrip):
-    print("def update_table2_options_from_dsource has been called at {}".format(datetime.now()))
-    #print("dsource is:"+str(dsource))
-    print("called")
+    print("def update_table2_options_from_dsource has been called at {}".format(datetime.now()))  
     if dsource == 1:
         return get_table_name_from_description(descrip), table_descriptions,{'display': 'none'}
     elif dsource == 2:
@@ -337,8 +335,6 @@ def update_table2_options_from_dsource(dsource,descrip):
 )
 def update_table3_options_from_dsource(dsource,descrip):
     print("def update_table3_options_from_dsource has been called at {}".format(datetime.now()))
-    #print("dsource is:"+str(dsource))
-    #print("called")
     if dsource == 1:
             return get_table_name_from_description(descrip), table_descriptions,{'display': 'none'}
     elif dsource == 2:
