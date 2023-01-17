@@ -106,7 +106,7 @@ def get_datasource_location_from_description(table_description):
     return result.values.tolist()
 
 def get_datasource_from_description(table_description):
-    print("read_datasource_location function called")
+    print("get_datasource_location function called")
     result = df_table_summary.loc[df_table_summary['Table Description'] == table_description,'Datasource']
     return result.values.tolist()
 
@@ -119,7 +119,7 @@ def get_table_description_list_from_datasource(dsource):
     print(result.head)
     return result.values.tolist()
 
-#functions that go to other datas
+#functions that work with the chosen dataframe for the figure
 
 def get_dataframe_from_description(table_description):
     print("get_dataframe_from_description function called")
@@ -136,8 +136,15 @@ def get_dataframe_from_description(table_description):
         return [0]
     
 
-
-
+def get_x_axis_values_from_chosen_dataset(dset,table_description):
+    print("get_x_axis_values_from_chosen_dataset function called")
+    if get_datasource_from_description(table_description) == ['IfoA 00 Series']:
+        return dset['Age x']
+    elif get_datasource_from_description(table_description) == ['Human Mortality Database']:
+        return dset['Age']
+    else:
+        print("get_x_axis_values_from_chosen_dataset function aint returning proper")
+        return [0]
 
 #-----------------------------------------------------------------------------------
 #                       OBJECTS FOR GRAPH
@@ -338,7 +345,6 @@ def update_table1_options_from_dsource(dsource,descrip):
         return get_table_name_from_description(descrip), get_table_description_list_from_datasource(dsource_dropdown_options[dsource-1]['label']),{'display': 'none'}
     elif dsource_dropdown_options[dsource-1]['label'] == 'Human Mortality Database':
         return get_table_name_from_description(descrip), get_table_description_list_from_datasource(dsource_dropdown_options[dsource-1]['label']),{'display': 'block'}
-        #return [{'label': 'HMD tables to be added Q1 2023'},{'label': 'HMD tables to be added Q1 2023'},year_block_1]
     else:
         year_block_1 = {'display': 'none'}
         return [{'label': 'ONS tables to be added Q1 2023'},{'label': 'ONS tables to be added Q1 2023'},year_block_1]
@@ -349,11 +355,10 @@ def update_table1_options_from_dsource(dsource,descrip):
 )
 def update_table2_options_from_dsource(dsource,descrip):
     print("def update_table2_options_from_dsource has been called at {}".format(datetime.now()))  
-    if dsource == 1:
-        return get_table_name_from_description(descrip), table_descriptions,{'display': 'none'}
-    elif dsource == 2:
-        year_block_2 = {'display': 'block'}
-        return [{'label': 'HMD tables to be added Q1 2023'},{'label': 'HMD tables to be added Q1 2023'},year_block_2]
+    if dsource_dropdown_options[dsource-1]['label'] == 'IfoA 00 Series':
+        return get_table_name_from_description(descrip), get_table_description_list_from_datasource(dsource_dropdown_options[dsource-1]['label']),{'display': 'none'}
+    elif dsource_dropdown_options[dsource-1]['label'] == 'Human Mortality Database':
+        return get_table_name_from_description(descrip), get_table_description_list_from_datasource(dsource_dropdown_options[dsource-1]['label']),{'display': 'block'}
     else:
         year_block_2 = {'display': 'none'}
         return [{'label': 'ONS tables to be added Q1 2023'},{'label': 'ONS tables to be added Q1 2023'},year_block_2]
@@ -365,11 +370,10 @@ def update_table2_options_from_dsource(dsource,descrip):
 )
 def update_table3_options_from_dsource(dsource,descrip):
     print("def update_table3_options_from_dsource has been called at {}".format(datetime.now()))
-    if dsource == 1:
-            return get_table_name_from_description(descrip), table_descriptions,{'display': 'none'}
-    elif dsource == 2:
-        year_block_3 = {'display': 'block'}
-        return [{'label': 'HMD tables to be added Q1 2023'},{'label': 'HMD tables to be added Q1 2023'},year_block_3]
+    if dsource_dropdown_options[dsource-1]['label'] == 'IfoA 00 Series':
+        return get_table_name_from_description(descrip), get_table_description_list_from_datasource(dsource_dropdown_options[dsource-1]['label']),{'display': 'none'}
+    elif dsource_dropdown_options[dsource-1]['label'] == 'Human Mortality Database':
+        return get_table_name_from_description(descrip), get_table_description_list_from_datasource(dsource_dropdown_options[dsource-1]['label']),{'display': 'block'}
     else:
         year_block_3 = {'display': 'none'}
         return [{'label': 'ONS tables to be added Q1 2023'},{'label': 'ONS tables to be added Q1 2023'},year_block_3]
@@ -444,28 +448,28 @@ def update_figure(sheet_name1, sheet_name2, sheet_name3, chart_type,slider_1,sli
 # we have a dataframe df_dset_1 2 and 3 which are set in our "objects for graph" section of the script
 # these hold our data for our figure
 
-
-
+ #the whole sheet name thing is very 00 series specific and needs to be more generalised
+ #    
     if sheet_name1 is not None:
         if chart_type == 'line':
-            trace_1 = go.Scatter(x=df_dset_1['Age x'], y=df_dset_1[duration_dset_1], name=sheet_name1, marker=dict(color="#abe2fb"))
+            trace_1 = go.Scatter(x=get_x_axis_values_from_chosen_dataset(df_dset_1,descrip1), y=df_dset_1[duration_dset_1], name=sheet_name1, marker=dict(color="#abe2fb"))
         elif chart_type == 'bar':
-            trace_1 = go.Bar(x=df_dset_1['Age x'], y=df_dset_1[duration_dset_1 ], name=sheet_name1, marker=dict(color="#abe2fb"))
+            trace_1 = go.Bar(x=get_x_axis_values_from_chosen_dataset(df_dset_1,descrip1), y=df_dset_1[duration_dset_1 ], name=sheet_name1, marker=dict(color="#abe2fb"))
         data.append(trace_1)
 
 
     if sheet_name2 is not None:
         if chart_type == 'line':
-            trace_2 = go.Scatter(x=df_dset_2['Age x'], y=df_dset_2[duration_dset_2], name=sheet_name2,marker=dict(color="#002c53"))
+            trace_2 = go.Scatter(x=get_x_axis_values_from_chosen_dataset(df_dset_2,descrip2), y=df_dset_2[duration_dset_2], name=sheet_name2,marker=dict(color="#002c53"))
         elif chart_type == 'bar':
-            trace_2 = go.Bar(x=df_dset_2['Age x'], y=df_dset_2[duration_dset_2], name=sheet_name2,marker=dict(color="#002c53"))
+            trace_2 = go.Bar(x=get_x_axis_values_from_chosen_dataset(df_dset_2,descrip2), y=df_dset_2[duration_dset_2], name=sheet_name2,marker=dict(color="#002c53"))
         data.append(trace_2)
 
     if sheet_name3 is not None:
         if chart_type == 'line':
-            trace_3 = go.Scatter(x=df_dset_3['Age x'], y=df_dset_3[duration_dset_3], name=sheet_name3,marker=dict(color=" #c3941e"))
+            trace_3 = go.Scatter(x=get_x_axis_values_from_chosen_dataset(df_dset_3,descrip3), name=sheet_name3,marker=dict(color=" #c3941e"))
         elif chart_type == 'bar':
-            trace_3 = go.Bar(x=df_dset_3['Age x'], y=df_dset_3[duration_dset_3], name=sheet_name3,marker=dict(color=" #c3941e"))
+            trace_3 = go.Bar(x=get_x_axis_values_from_chosen_dataset(df_dset_3,descrip3), y=df_dset_3[duration_dset_3], name=sheet_name3,marker=dict(color=" #c3941e"))
         data.append(trace_3)
 
 
