@@ -87,18 +87,42 @@ table_descriptions = df_filtered['Table Description'].tolist()
 #                          FUNCTIONS
 #----------------------------------------------------------------------------------------
 
+#functions that use the dataframe df_table_summary that was initialised from excel spreadsheet at start of script
+
 def get_table_name_from_description(table_description):
     print("get_table_name_from_description function called")
-    #obtain the table name using table_description by using the dataframe df_table_summary that was initialised from excel spreadsheet at start of script
     result = df_table_summary.loc[df_table_summary['Table Description'] == table_description,'Table']
     return result.values.tolist()
 
 def get_select_years_from_description(table_description):
     print("get_table_name_from_description function called")
-    #obtain the table name using table_description by using the dataframe df_table_summary that was initialised from excel spreadsheet at start of script
     result = df_table_summary.loc[df_table_summary['Table Description'] == table_description,'Select Years']
     return result.values.tolist()
 
+def get_datasource_location_from_description(table_description):
+    print("read_datasource_location function called")
+    result = df_table_summary.loc[df_table_summary['Table Description'] == table_description,'Datasource Location']
+    return result.values.tolist()
+
+def get_datasource_from_description(table_description):
+    print("read_datasource_location function called")
+    result = df_table_summary.loc[df_table_summary['Table Description'] == table_description,'Datasource']
+    return result.values.tolist()
+
+
+#functions that go to other datas
+
+def get_dataframe_from_description(table_description):
+    print("get_dataframe_from_description function called")
+    #the means of obtaining a dataset is dependent on the dataset we are looking at
+    #   for the 00 series there is a separate sheet for each table
+    #   for the HMD......    
+    if get_datasource_from_description(table_description) == ['IfoA 00 Series']:
+        return pd.read_excel(get_datasource_location_from_description(table_description)[0], sheet_name=get_table_name_from_description(table_description)[0])
+    else:
+        print("get_dataframe_from_description function aint returning proper")
+        return [0]
+    
 
 
 
@@ -106,27 +130,17 @@ def get_select_years_from_description(table_description):
 #                       OBJECTS FOR GRAPH
 #---------------------------------------------------------------------------------
 
-
+# THIS SECTION SEEMS LIKE A BIT OF A FRUITLESS EXECISE
+# WE POPULATE SOME DATASETS FOR THE GRAPH
+# JUST SO THAT WE DON'T GET AN ERROR WHERE THE PAGE FIRST TRIES TO CREATE A FIGURE
+# WE MAY LOOK AT SOLUTIONS IN THE FUTURE TO REMOVE THIS SECTION IN ORDER TO MAKE THE CODE
+# MORE SUCCINCT
 df_dset_1  = pd.read_excel('Mortality_tables/00series.xls', sheet_name='AMC00')
-#fig = px.line(df_dset_1, x="Age x", y="Duration 0")
-#fig = px.line()
 trace_1 = go.Scatter(x=df_dset_1['Age x'], y=df_dset_1['Duration 0'])
-# Add the trace to the plot
-#fig.add_trace(trace)
-
-
 df_dset_2  = pd.read_excel('Mortality_tables/00series.xls', sheet_name='AMS00')
-# Create a trace object for df_dset_2 using the go.Scatter constructor
 trace_2 = go.Scatter(x=df_dset_2['Age x'], y=df_dset_2['Duration 0'])
-# Add the trace to the plot
-#fig.add_trace(trace)
-
 df_dset_3  = pd.read_excel('Mortality_tables/00series.xls', sheet_name='AMN00')
-# Create a trace object for df_dset_2 using the go.Scatter constructor
 trace_3 = go.Scatter(x=df_dset_3['Age x'], y=df_dset_3['Duration 0'])
-# Add the trace to the plot
-#fig.add_trace(trace)
-
 fig = go.Figure(data=[trace_1, trace_2, trace_3])
 
 #-------------------------------------------------------------------------------------
@@ -372,9 +386,10 @@ def update_figure(sheet_name1, sheet_name2, sheet_name3, chart_type,slider_1,sli
     #THE DATASOURCE THAT HAS BEEN CHOSEN.
     #IT MAY BE BETTER AS A SEPARATE FUNCTION IN ORDER TO MAKE THIS CALLBACK FUNCTION
     #A LITTLE EASIER TO UNDERSTAND
-    df_dset_1 = pd.read_excel('Mortality_tables/00series.xls', sheet_name=sheet_name1)
-    df_dset_2 = pd.read_excel('Mortality_tables/00series.xls', sheet_name=sheet_name2)
-    df_dset_3 = pd.read_excel('Mortality_tables/00series.xls', sheet_name=sheet_name3)
+    df_dset_1 = get_dataframe_from_description(descrip1)
+    df_dset_2 = get_dataframe_from_description(descrip2)
+    df_dset_3 = get_dataframe_from_description(descrip3)
+
     data = []
 
     #USE SLIDER VALUES TO DETERMINE LOOKUP FIELD VALUE
@@ -413,6 +428,11 @@ def update_figure(sheet_name1, sheet_name2, sheet_name3, chart_type,slider_1,sli
 
     print("     graph slider value is:"+str(graph_slider_value))
        
+
+# we have a dataframe df_dset_1 2 and 3 which are set in our "objects for graph" section of the script
+# these hold our data for our figure
+
+
 
     if sheet_name1 is not None:
         if chart_type == 'line':
