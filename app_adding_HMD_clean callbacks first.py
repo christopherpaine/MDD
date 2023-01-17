@@ -11,7 +11,7 @@ from dash.dependencies import Input, Output
 import dash_daq as daq
 import dash_bootstrap_components as dbc
 import plotly.graph_objs as go
-
+from datetime import datetime
 #----------------------------------------------------------------------------------------
 #                      LOAD IN THE DATA
 #---------------------------------------------------------------------------------------------
@@ -289,14 +289,14 @@ Disclaimer_card =  dbc.Card(
     [dash.dependencies.Input('dsource_dropdown_1', 'value'),dash.dependencies.Input('description_dropdown_1', 'value')]
 )
 def update_table1_options_from_dsource(dsource,descrip):
-    #print("dsource is:"+str(dsource))
-    print("called")
+    print("def update_table1_options_from_dsource has been called {}".format(datetime.now()))
+    print("         dsource is:"+str(dsource))
     if dsource == 1:
         print(descrip)
         #lookup description in df_table_summary to get table name
         df_filtered2 = df_table_summary[df_table_summary['Table Description'] == descrip]
         df_filtered3 = df_filtered2['Table'].tolist()
-        print(df_filtered3)
+        print("         df_filtered3 is" + str(df_filtered3))
         year_block_1 = {'display': 'none'}
         return df_filtered3, table_descriptions,year_block_1
     elif dsource == 2:
@@ -311,6 +311,7 @@ def update_table1_options_from_dsource(dsource,descrip):
     [dash.dependencies.Input('dsource_dropdown_2', 'value'),dash.dependencies.Input('description_dropdown_2', 'value')]
 )
 def update_table2_options_from_dsource(dsource,descrip):
+    print("def update_table2_options_from_dsource has been called at {}".format(datetime.now()))
     #print("dsource is:"+str(dsource))
     print("called")
     if dsource == 1:
@@ -334,6 +335,7 @@ def update_table2_options_from_dsource(dsource,descrip):
     [dash.dependencies.Input('dsource_dropdown_3', 'value'),dash.dependencies.Input('description_dropdown_3', 'value')]
 )
 def update_table3_options_from_dsource(dsource,descrip):
+    print("def update_table3_options_from_dsource has been called at {}".format(datetime.now()))
     #print("dsource is:"+str(dsource))
     #print("called")
     if dsource == 1:
@@ -365,42 +367,35 @@ def update_table3_options_from_dsource(dsource,descrip):
      Input(component_id='graph_slider2', component_property='value')]
 )
 def update_figure(sheet_name1, sheet_name2, sheet_name3, chart_type,slider_1,slider_2,slider_3,graph_slider_value,graph_slider_value2):
+    print("def update_figure has been called at {}".format(datetime.now()))
     df_dset_1 = pd.read_excel('Mortality_tables/00series.xls', sheet_name=sheet_name1)
     df_dset_2 = pd.read_excel('Mortality_tables/00series.xls', sheet_name=sheet_name2)
     df_dset_3 = pd.read_excel('Mortality_tables/00series.xls', sheet_name=sheet_name3)
     data = []
 
     duration_dset_1 = "Duration "+ str(slider_1)
-    print("duration dset 1 is:"+str(duration_dset_1))
-    duration_dset_2 = "Duration "+ str(slider_2)
-    print("duration dset 2 is:"+str(duration_dset_2))
+    duration_dset_2 = "Duration "+ str(slider_2)    
     duration_dset_3 = "Duration "+ str(slider_3)
-    print("duration dset 3 is:"+str(duration_dset_3))
+    print("         duration dset 1 is:"+str(duration_dset_1)+";"+"duration dset 2 is:"+str(duration_dset_2)+";"+"duration dset 3 is:"+str(duration_dset_3))
 
     #lookup max select years in df_table_summary to get table name
     df_filtered2 = df_table_summary[df_table_summary['Table'] == sheet_name1]
     df_filtered3 = df_filtered2['Select Years'].tolist()
-    print("max select years for dset 1")
-    print(df_filtered3)
     max_select_dset_1 = df_filtered3 
 
     df_filtered2 = df_table_summary[df_table_summary['Table'] == sheet_name2]
     df_filtered3 = df_filtered2['Select Years'].tolist()
-    print("max select years for dset 2")
-    print(df_filtered3)
     max_select_dset_2 = df_filtered3
 
     df_filtered2 = df_table_summary[df_table_summary['Table'] == sheet_name3]
     df_filtered3 = df_filtered2['Select Years'].tolist()
-    print("max select years for dset 3")
-    print(df_filtered3)
     max_select_dset_3 = df_filtered3 
+    print("     max select years for dset 1 is:"+str(max_select_dset_1)+";  max select years for dset 2 is:"+str(max_select_dset_2)+";  max select years for dset 3 is:"+str(max_select_dset_3))
 
 
-    print("graph slider value")
-    print(graph_slider_value)
 
-    
+    print("     graph slider value is:"+str(graph_slider_value))
+       
 
     if sheet_name1 is not None:
         if chart_type == 'line':
