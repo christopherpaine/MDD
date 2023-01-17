@@ -93,7 +93,11 @@ def get_table_name_from_description(table_description):
     result = df_table_summary.loc[df_table_summary['Table Description'] == table_description,'Table']
     return result.values.tolist()
 
-
+def get_select_years_from_description(table_description):
+    print("get_table_name_from_description function called")
+    #obtain the table name using table_description by using the dataframe df_table_summary that was initialised from excel spreadsheet at start of script
+    result = df_table_summary.loc[df_table_summary['Table Description'] == table_description,'Select Years']
+    return result.values.tolist()
 
 
 
@@ -355,9 +359,12 @@ def update_table3_options_from_dsource(dsource,descrip):
      Input(component_id='select_slider_2', component_property='value'),
      Input(component_id='select_slider_3', component_property='value'),
      Input(component_id='graph_slider', component_property='value'),
-     Input(component_id='graph_slider2', component_property='value')]
+     Input(component_id='graph_slider2', component_property='value'),
+     dash.dependencies.Input('description_dropdown_1', 'value'),
+     dash.dependencies.Input('description_dropdown_2', 'value'),
+     dash.dependencies.Input('description_dropdown_3', 'value')]
 )
-def update_figure(sheet_name1, sheet_name2, sheet_name3, chart_type,slider_1,slider_2,slider_3,graph_slider_value,graph_slider_value2):
+def update_figure(sheet_name1, sheet_name2, sheet_name3, chart_type,slider_1,slider_2,slider_3,graph_slider_value,graph_slider_value2,descrip1,descrip2,descrip3):
     print("def update_figure has been called at {}".format(datetime.now()))
 
 
@@ -379,21 +386,28 @@ def update_figure(sheet_name1, sheet_name2, sheet_name3, chart_type,slider_1,sli
     duration_dset_3 = "Duration "+ str(slider_3)
     print("         duration dset 1 is:"+str(duration_dset_1)+";"+"duration dset 2 is:"+str(duration_dset_2)+";"+"duration dset 3 is:"+str(duration_dset_3))
 
-    #lookup max select years in df_table_summary to get table name
-    #WE LOOK AT OUR TABLE SUMMARY FILE, WHICH DETAILS DATASOURCE,
-    #TABLE NAME, TABLE DESCRIPTION AND NUMBER OF SELECT YEARS
-    df_filtered2 = df_table_summary[df_table_summary['Table'] == sheet_name1]
-    df_filtered3 = df_filtered2['Select Years'].tolist()
-    max_select_dset_1 = df_filtered3 
+    #determine max select years for each table description choice
+    max_select_dset_1 = get_select_years_from_description(descrip1)
+    max_select_dset_2 = get_select_years_from_description(descrip2)
+    max_select_dset_3 = get_select_years_from_description(descrip3)
+    #and consequently determine which slider blocks to display
+    if max_select_dset_1 == [0]:
+        slider_block_1 = {'display': 'none'}
+    else:
+        slider_block_1 = {'display': 'block'}
+    if max_select_dset_2 == [0]:
+        slider_block_2 = {'display': 'none'}
+    else:
+        slider_block_2 = {'display': 'block'}
+    if max_select_dset_3 == [0]:
+        slider_block_3 = {'display': 'none'}
+    else:
+        slider_block_3 = {'display': 'block'}
 
-    df_filtered2 = df_table_summary[df_table_summary['Table'] == sheet_name2]
-    df_filtered3 = df_filtered2['Select Years'].tolist()
-    max_select_dset_2 = df_filtered3
 
-    df_filtered2 = df_table_summary[df_table_summary['Table'] == sheet_name3]
-    df_filtered3 = df_filtered2['Select Years'].tolist()
-    max_select_dset_3 = df_filtered3 
-    print("     max select years for dset 1 is:"+str(max_select_dset_1)+";  max select years for dset 2 is:"+str(max_select_dset_2)+";  max select years for dset 3 is:"+str(max_select_dset_3))
+
+
+
 
 
 
@@ -449,26 +463,18 @@ def update_figure(sheet_name1, sheet_name2, sheet_name3, chart_type,slider_1,sli
     
     fig.update_layout(yaxis=dict(gridcolor='white', range=graph_slider_value2))
                     
-    #determine which slider blocks to display
-    if max_select_dset_1 == [0]:
-        slider_block_1 = {'display': 'none'}
-    else:
-
-        slider_block_1 = {'display': 'block'}
-
-    if max_select_dset_2 == [0]:
-        slider_block_2 = {'display': 'none'}
-    else:
-        slider_block_2 = {'display': 'block'}
-
-    if max_select_dset_3 == [0]:
-        slider_block_3 = {'display': 'none'}
-    else:
-        slider_block_3 = {'display': 'block'}
 
 
-    return fig,max_select_dset_1,max_select_dset_2,max_select_dset_3,slider_block_1,slider_block_2,slider_block_3
 
+    #return fig,max_select_dset_1,max_select_dset_2,max_select_dset_3,slider_block_1,slider_block_2,slider_block_3
+
+    return (fig,
+            max_select_dset_1,
+            max_select_dset_2,
+            max_select_dset_3,
+            slider_block_1,
+            slider_block_2,
+            slider_block_3)
 
 
 # --------------------------------------------------------------------------------------
