@@ -82,6 +82,17 @@ table_descriptions = df_filtered['Table Description'].tolist()
 
 
 
+#----------------------------------------------------------------------------------------
+#                          FUNCTIONS
+#----------------------------------------------------------------------------------------
+
+def get_table_name_from_description(table_description):
+    #obtain the table name using table_description by using the dataframe df_table_summary that was initialised from excel spreadsheet at start of script
+    result = df_table_summary[df_table_summary['Table Description'] == table_description]
+    return result
+
+
+
 
 
 
@@ -294,7 +305,8 @@ def update_table1_options_from_dsource(dsource,descrip):
     if dsource == 1:
         print(descrip)
         #lookup description in df_table_summary to get table name
-        df_filtered2 = df_table_summary[df_table_summary['Table Description'] == descrip]
+        df_filtered2 = get_table_name_from_description(descrip)
+
         df_filtered3 = df_filtered2['Table'].tolist()
         print("         df_filtered3 is" + str(df_filtered3))
         year_block_1 = {'display': 'none'}
@@ -317,7 +329,8 @@ def update_table2_options_from_dsource(dsource,descrip):
     if dsource == 1:
         print(descrip)
         #lookup description in df_table_summary to get table name
-        df_filtered2 = df_table_summary[df_table_summary['Table Description'] == descrip]
+        df_filtered2 = get_table_name_from_description(descrip)
+
         df_filtered3 = df_filtered2['Table'].tolist()
         print(df_filtered3)
         year_block_2 = {'display': 'none'}
@@ -341,7 +354,8 @@ def update_table3_options_from_dsource(dsource,descrip):
     if dsource == 1:
         print(descrip)
         #lookup description in df_table_summary to get table name
-        df_filtered2 = df_table_summary[df_table_summary['Table Description'] == descrip]
+        df_filtered2 = get_table_name_from_description(descrip)
+
         df_filtered3 = df_filtered2['Table'].tolist()
         print(df_filtered3)
         year_block_3 = {'display': 'none'}
