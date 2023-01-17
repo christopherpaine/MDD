@@ -368,17 +368,29 @@ def update_table3_options_from_dsource(dsource,descrip):
 )
 def update_figure(sheet_name1, sheet_name2, sheet_name3, chart_type,slider_1,slider_2,slider_3,graph_slider_value,graph_slider_value2):
     print("def update_figure has been called at {}".format(datetime.now()))
+
+
+    #THIS SECTION NEEDS CHANGING SO THAT THE DATASET THAT IS READ IN IS DEPENDENT ON
+    #THE DATASOURCE THAT HAS BEEN CHOSEN.
+    #IT MAY BE BETTER AS A SEPARATE FUNCTION IN ORDER TO MAKE THIS CALLBACK FUNCTION
+    #A LITTLE EASIER TO UNDERSTAND
     df_dset_1 = pd.read_excel('Mortality_tables/00series.xls', sheet_name=sheet_name1)
     df_dset_2 = pd.read_excel('Mortality_tables/00series.xls', sheet_name=sheet_name2)
     df_dset_3 = pd.read_excel('Mortality_tables/00series.xls', sheet_name=sheet_name3)
     data = []
 
+    #USE SLIDER VALUES TO DETERMINE LOOKUP FIELD VALUE
+    #THIS IS ALSO VERY SPECIFIC TO THE 00 SERIES FIELD NAMES
+    #AND WOULD PROBABLY BE BEST TAKEN OUT INTO A FUNCTION
+    #AND THE CALLBACK FUNCTION MADE MORE GENERALISED FOR ALL DATASETS
     duration_dset_1 = "Duration "+ str(slider_1)
     duration_dset_2 = "Duration "+ str(slider_2)    
     duration_dset_3 = "Duration "+ str(slider_3)
     print("         duration dset 1 is:"+str(duration_dset_1)+";"+"duration dset 2 is:"+str(duration_dset_2)+";"+"duration dset 3 is:"+str(duration_dset_3))
 
     #lookup max select years in df_table_summary to get table name
+    #WE LOOK AT OUR TABLE SUMMARY FILE, WHICH DETAILS DATASOURCE,
+    #TABLE NAME, TABLE DESCRIPTION AND NUMBER OF SELECT YEARS
     df_filtered2 = df_table_summary[df_table_summary['Table'] == sheet_name1]
     df_filtered3 = df_filtered2['Select Years'].tolist()
     max_select_dset_1 = df_filtered3 
