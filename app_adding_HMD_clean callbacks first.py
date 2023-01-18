@@ -136,22 +136,24 @@ def get_dataframe_from_description(table_description):
         return [0]
     
 
-def get_x_axis_values_from_chosen_dataset(dset,table_description):
+def get_x_axis_values_from_chosen_dataset(dset,table_description,year_slider):
     print("get_x_axis_values_from_chosen_dataset function called")
     if get_datasource_from_description(table_description) == ['IfoA 00 Series']:
         return dset['Age x']
     elif get_datasource_from_description(table_description) == ['Human Mortality Database']:
-        return dset['Age']
+        return dset.loc[dset['Year'] == year_slider,'Age']
+        #return dset['Age']['Year'==year_slider]
     else:
         print("get_x_axis_values_from_chosen_dataset function aint returning proper")
         return [0]
 
-def get_y_axis_values_from_chosen_dataset(dset,table_description,duration):
+def get_y_axis_values_from_chosen_dataset(dset,table_description,duration,year_slider):
     print("get_x_axis_values_from_chosen_dataset function called")
     if get_datasource_from_description(table_description) == ['IfoA 00 Series']:
         return dset[duration]
     elif get_datasource_from_description(table_description) == ['Human Mortality Database']:
-        return dset['qx']
+        return dset.loc[dset['Year'] == year_slider,'qx']
+        #return dset['qx']['Year'==year_slider]
     else:
         print("get_x_axis_values_from_chosen_dataset function aint returning proper")
         return [0]
@@ -389,9 +391,12 @@ def update_table3_options_from_dsource(dsource,descrip):
      Input(component_id='graph_slider2', component_property='value'),
      dash.dependencies.Input('description_dropdown_1', 'value'),
      dash.dependencies.Input('description_dropdown_2', 'value'),
-     dash.dependencies.Input('description_dropdown_3', 'value')]
+     dash.dependencies.Input('description_dropdown_3', 'value'),
+     dash.dependencies.Input('year_slider_1', 'value'),
+     dash.dependencies.Input('year_slider_2', 'value'),
+     dash.dependencies.Input('year_slider_3', 'value')]
 )
-def update_figure(chart_type,slider_1,slider_2,slider_3,graph_slider_value,graph_slider_value2,descrip1,descrip2,descrip3):
+def update_figure(chart_type,slider_1,slider_2,slider_3,graph_slider_value,graph_slider_value2,descrip1,descrip2,descrip3,year_slider_1,year_slider_2,year_slider_3):
     print("def update_figure has been called at {}".format(datetime.now()))
 
 
@@ -443,24 +448,24 @@ def update_figure(chart_type,slider_1,slider_2,slider_3,graph_slider_value,graph
  #    
     if get_table_name_from_description(descrip1) is not None:
         if chart_type == 'line':
-            trace_1 = go.Scatter(x=get_x_axis_values_from_chosen_dataset(df_dset_1,descrip1), y=get_y_axis_values_from_chosen_dataset(df_dset_1,descrip1,duration_dset_1), name=str(get_table_name_from_description(descrip1)), marker=dict(color="#abe2fb"))
+            trace_1 = go.Scatter(x=get_x_axis_values_from_chosen_dataset(df_dset_1,descrip1,year_slider_1), y=get_y_axis_values_from_chosen_dataset(df_dset_1,descrip1,duration_dset_1,year_slider_1), name=str(get_table_name_from_description(descrip1)), marker=dict(color="#abe2fb"))
         elif chart_type == 'bar':
-            trace_1 = go.Bar(x=get_x_axis_values_from_chosen_dataset(df_dset_1,descrip1), y=get_y_axis_values_from_chosen_dataset(df_dset_1,descrip1,duration_dset_1), name=str(get_table_name_from_description(descrip1)), marker=dict(color="#abe2fb"))
+            trace_1 = go.Bar(x=get_x_axis_values_from_chosen_dataset(df_dset_1,descrip1,year_slider_1), y=get_y_axis_values_from_chosen_dataset(df_dset_1,descrip1,duration_dset_1,year_slider_1), name=str(get_table_name_from_description(descrip1)), marker=dict(color="#abe2fb"))
         data.append(trace_1)
 
 
     if get_table_name_from_description(descrip2) is not None:
         if chart_type == 'line':
-            trace_2 = go.Scatter(x=get_x_axis_values_from_chosen_dataset(df_dset_2,descrip2), y=get_y_axis_values_from_chosen_dataset(df_dset_2,descrip2,duration_dset_2), name=str(get_table_name_from_description(descrip2)),marker=dict(color="#002c53"))
+            trace_2 = go.Scatter(x=get_x_axis_values_from_chosen_dataset(df_dset_2,descrip2,year_slider_2), y=get_y_axis_values_from_chosen_dataset(df_dset_2,descrip2,duration_dset_2,year_slider_2), name=str(get_table_name_from_description(descrip2)),marker=dict(color="#002c53"))
         elif chart_type == 'bar':
-            trace_2 = go.Bar(x=get_x_axis_values_from_chosen_dataset(df_dset_2,descrip2), y=get_y_axis_values_from_chosen_dataset(df_dset_2,descrip2,duration_dset_2), name=str(get_table_name_from_description(descrip2)),marker=dict(color="#002c53"))
+            trace_2 = go.Bar(x=get_x_axis_values_from_chosen_dataset(df_dset_2,descrip2,year_slider_2), y=get_y_axis_values_from_chosen_dataset(df_dset_2,descrip2,duration_dset_2,year_slider_2), name=str(get_table_name_from_description(descrip2)),marker=dict(color="#002c53"))
         data.append(trace_2)
 
     if get_table_name_from_description(descrip3) is not None:
         if chart_type == 'line':
-            trace_3 = go.Scatter(x=get_x_axis_values_from_chosen_dataset(df_dset_3,descrip3), y=get_y_axis_values_from_chosen_dataset(df_dset_3,descrip3,duration_dset_3),name=str(get_table_name_from_description(descrip3)),marker=dict(color=" #c3941e"))
+            trace_3 = go.Scatter(x=get_x_axis_values_from_chosen_dataset(df_dset_3,descrip3,year_slider_3), y=get_y_axis_values_from_chosen_dataset(df_dset_3,descrip3,duration_dset_3,year_slider_3),name=str(get_table_name_from_description(descrip3)),marker=dict(color=" #c3941e"))
         elif chart_type == 'bar':
-            trace_3 = go.Bar(x=get_x_axis_values_from_chosen_dataset(df_dset_3,descrip3), y=get_y_axis_values_from_chosen_dataset(df_dset_3,descrip3,duration_dset_3), name=str(get_table_name_from_description(descrip3)),marker=dict(color=" #c3941e"))
+            trace_3 = go.Bar(x=get_x_axis_values_from_chosen_dataset(df_dset_3,descrip3,year_slider_3), y=get_y_axis_values_from_chosen_dataset(df_dset_3,descrip3,duration_dset_3,year_slider_3), name=str(get_table_name_from_description(descrip3)),marker=dict(color=" #c3941e"))
         data.append(trace_3)
 
 
