@@ -208,10 +208,7 @@ dataset1_card = dbc.Card(
                                             dbc.Label("Description"),
                                             html.Br(),
                                             dcc.Dropdown(id='description_dropdown_1',options=options_dd_1,value=None,placeholder='Please Select',style={'font-size':'12px'}),                                            
-                                            html.Br(),
-                                            html.B("  "),
-                                            dbc.Label("Table"),
-                                            dcc.Dropdown(id='table_dropdown_1',options=options_td_1,value=None,placeholder='Please Select',style={'font-size':'12px'}),
+                                            
                                             html.Br(),
                                             html.Div([
                                                 dbc.Label("Number of Select Years (max = ultimate)"),
@@ -240,10 +237,7 @@ dataset2_card = dbc.Card(
                                             dbc.Label("Description"),
                                             html.Br(),
                                             dcc.Dropdown(id='description_dropdown_2',options=options_dd_2,value=None,placeholder='Please Select',style={'font-size':'12px'}),                                            
-                                            html.Br(),
-                                            html.B("  "),
-                                            dbc.Label("Table"),
-                                            dcc.Dropdown(id='table_dropdown_2',options=[],value=None,style={'font-size':'12px'}),
+                                            
                                             html.Br(),
                                             html.Div([
                                                 dbc.Label("Number of Select Years (max = ultimate)"),
@@ -272,11 +266,7 @@ dataset3_card = dbc.Card(
                                             dbc.Label("Description"),
                                             html.Br(),
                                             dcc.Dropdown(id='description_dropdown_3',options=options_dd_1,value=None,placeholder='Please Select',style={'font-size':'12px'}),                                            
-                                            html.Br(),
-                                            html.B("  "),
                                             
-                                            dbc.Label("Table"),
-                                            dcc.Dropdown(id='table_dropdown_3',options=[],value=None,style={'font-size':'12px'}),
                                             html.Br(),
                                             html.Div([
                                                 dbc.Label("Number of Select Years (max = ultimate)"),
@@ -346,47 +336,47 @@ Disclaimer_card =  dbc.Card(
 
 
 @app.callback(
-    [dash.dependencies.Output('table_dropdown_1', 'options'),dash.dependencies.Output('description_dropdown_1', 'options'),Output(component_id='year_block_1', component_property='style')],
+    [dash.dependencies.Output('description_dropdown_1', 'options'),Output(component_id='year_block_1', component_property='style')],
     [dash.dependencies.Input('dsource_dropdown_1', 'value'),dash.dependencies.Input('description_dropdown_1', 'value')]
 )
 def update_table1_options_from_dsource(dsource,descrip):
     print("def update_table1_options_from_dsource has been called {}".format(datetime.now()))
     if dsource_dropdown_options[dsource-1]['label'] == 'IfoA 00 Series':
-        return get_table_name_from_description(descrip), get_table_description_list_from_datasource(dsource_dropdown_options[dsource-1]['label']),{'display': 'none'}
+        return get_table_description_list_from_datasource(dsource_dropdown_options[dsource-1]['label']),{'display': 'none'}
     elif dsource_dropdown_options[dsource-1]['label'] == 'Human Mortality Database':
-        return get_table_name_from_description(descrip), get_table_description_list_from_datasource(dsource_dropdown_options[dsource-1]['label']),{'display': 'block'}
+        return get_table_description_list_from_datasource(dsource_dropdown_options[dsource-1]['label']),{'display': 'block'}
     else:
         year_block_1 = {'display': 'none'}
-        return [{'label': 'ONS tables to be added Q1 2023'},{'label': 'ONS tables to be added Q1 2023'},year_block_1]
+        return [{'label': 'ONS tables to be added Q1 2023'},year_block_1]
 
 @app.callback(
-    [dash.dependencies.Output('table_dropdown_2', 'options'),dash.dependencies.Output('description_dropdown_2', 'options'),Output(component_id='year_block_2', component_property='style')],
+    [dash.dependencies.Output('description_dropdown_2', 'options'),Output(component_id='year_block_2', component_property='style')],
     [dash.dependencies.Input('dsource_dropdown_2', 'value'),dash.dependencies.Input('description_dropdown_2', 'value')]
 )
 def update_table2_options_from_dsource(dsource,descrip):
     print("def update_table2_options_from_dsource has been called at {}".format(datetime.now()))  
     if dsource_dropdown_options[dsource-1]['label'] == 'IfoA 00 Series':
-        return get_table_name_from_description(descrip), get_table_description_list_from_datasource(dsource_dropdown_options[dsource-1]['label']),{'display': 'none'}
+        return get_table_description_list_from_datasource(dsource_dropdown_options[dsource-1]['label']),{'display': 'none'}
     elif dsource_dropdown_options[dsource-1]['label'] == 'Human Mortality Database':
-        return get_table_name_from_description(descrip), get_table_description_list_from_datasource(dsource_dropdown_options[dsource-1]['label']),{'display': 'block'}
+        return get_table_description_list_from_datasource(dsource_dropdown_options[dsource-1]['label']),{'display': 'block'}
     else:
         year_block_2 = {'display': 'none'}
-        return [{'label': 'ONS tables to be added Q1 2023'},{'label': 'ONS tables to be added Q1 2023'},year_block_2]
+        return [{'label': 'ONS tables to be added Q1 2023'},year_block_2]
 
 
 @app.callback(
-    [dash.dependencies.Output('table_dropdown_3', 'options'),dash.dependencies.Output('description_dropdown_3', 'options'),Output(component_id='year_block_3', component_property='style')],
+    [dash.dependencies.Output('description_dropdown_3', 'options'),Output(component_id='year_block_3', component_property='style')],
     [dash.dependencies.Input('dsource_dropdown_3', 'value'),dash.dependencies.Input('description_dropdown_3', 'value')]
 )
 def update_table3_options_from_dsource(dsource,descrip):
     print("def update_table3_options_from_dsource has been called at {}".format(datetime.now()))
     if dsource_dropdown_options[dsource-1]['label'] == 'IfoA 00 Series':
-        return get_table_name_from_description(descrip), get_table_description_list_from_datasource(dsource_dropdown_options[dsource-1]['label']),{'display': 'none'}
+        return get_table_description_list_from_datasource(dsource_dropdown_options[dsource-1]['label']),{'display': 'none'}
     elif dsource_dropdown_options[dsource-1]['label'] == 'Human Mortality Database':
-        return get_table_name_from_description(descrip), get_table_description_list_from_datasource(dsource_dropdown_options[dsource-1]['label']),{'display': 'block'}
+        return get_table_description_list_from_datasource(dsource_dropdown_options[dsource-1]['label']),{'display': 'block'}
     else:
         year_block_3 = {'display': 'none'}
-        return [{'label': 'ONS tables to be added Q1 2023'},{'label': 'ONS tables to be added Q1 2023'},year_block_3]
+        return [{'label': 'ONS tables to be added Q1 2023'},year_block_3]
 
 
 @app.callback(
