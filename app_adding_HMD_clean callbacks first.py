@@ -151,7 +151,7 @@ def get_y_axis_values_from_chosen_dataset(dset,table_description,duration):
     if get_datasource_from_description(table_description) == ['IfoA 00 Series']:
         return dset[duration]
     elif get_datasource_from_description(table_description) == ['Human Mortality Database']:
-        return dset['Age']
+        return dset['qx']
     else:
         print("get_x_axis_values_from_chosen_dataset function aint returning proper")
         return [0]
