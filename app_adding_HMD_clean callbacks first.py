@@ -146,6 +146,16 @@ def get_x_axis_values_from_chosen_dataset(dset,table_description):
         print("get_x_axis_values_from_chosen_dataset function aint returning proper")
         return [0]
 
+def get_y_axis_values_from_chosen_dataset(dset,table_description,duration):
+    print("get_x_axis_values_from_chosen_dataset function called")
+    if get_datasource_from_description(table_description) == ['IfoA 00 Series']:
+        return dset[duration]
+    elif get_datasource_from_description(table_description) == ['Human Mortality Database']:
+        return dset['Age']
+    else:
+        print("get_x_axis_values_from_chosen_dataset function aint returning proper")
+        return [0]
+
 #-----------------------------------------------------------------------------------
 #                       OBJECTS FOR GRAPH
 #---------------------------------------------------------------------------------
@@ -452,24 +462,24 @@ def update_figure(sheet_name1, sheet_name2, sheet_name3, chart_type,slider_1,sli
  #    
     if sheet_name1 is not None:
         if chart_type == 'line':
-            trace_1 = go.Scatter(x=get_x_axis_values_from_chosen_dataset(df_dset_1,descrip1), y=df_dset_1[duration_dset_1], name=sheet_name1, marker=dict(color="#abe2fb"))
+            trace_1 = go.Scatter(x=get_x_axis_values_from_chosen_dataset(df_dset_1,descrip1), y=get_y_axis_values_from_chosen_dataset(df_dset_1,descrip1,duration_dset_1), name=sheet_name1, marker=dict(color="#abe2fb"))
         elif chart_type == 'bar':
-            trace_1 = go.Bar(x=get_x_axis_values_from_chosen_dataset(df_dset_1,descrip1), y=df_dset_1[duration_dset_1 ], name=sheet_name1, marker=dict(color="#abe2fb"))
+            trace_1 = go.Bar(x=get_x_axis_values_from_chosen_dataset(df_dset_1,descrip1), y=get_y_axis_values_from_chosen_dataset(df_dset_1,descrip1,duration_dset_1), name=sheet_name1, marker=dict(color="#abe2fb"))
         data.append(trace_1)
 
 
     if sheet_name2 is not None:
         if chart_type == 'line':
-            trace_2 = go.Scatter(x=get_x_axis_values_from_chosen_dataset(df_dset_2,descrip2), y=df_dset_2[duration_dset_2], name=sheet_name2,marker=dict(color="#002c53"))
+            trace_2 = go.Scatter(x=get_x_axis_values_from_chosen_dataset(df_dset_2,descrip2), y=get_y_axis_values_from_chosen_dataset(df_dset_2,descrip2,duration_dset_2), name=sheet_name2,marker=dict(color="#002c53"))
         elif chart_type == 'bar':
-            trace_2 = go.Bar(x=get_x_axis_values_from_chosen_dataset(df_dset_2,descrip2), y=df_dset_2[duration_dset_2], name=sheet_name2,marker=dict(color="#002c53"))
+            trace_2 = go.Bar(x=get_x_axis_values_from_chosen_dataset(df_dset_2,descrip2), y=get_y_axis_values_from_chosen_dataset(df_dset_2,descrip2,duration_dset_2), name=sheet_name2,marker=dict(color="#002c53"))
         data.append(trace_2)
 
     if sheet_name3 is not None:
         if chart_type == 'line':
-            trace_3 = go.Scatter(x=get_x_axis_values_from_chosen_dataset(df_dset_3,descrip3), y=df_dset_3[duration_dset_3],name=sheet_name3,marker=dict(color=" #c3941e"))
+            trace_3 = go.Scatter(x=get_x_axis_values_from_chosen_dataset(df_dset_3,descrip3), y=get_y_axis_values_from_chosen_dataset(df_dset_3,descrip3,duration_dset_3),name=sheet_name3,marker=dict(color=" #c3941e"))
         elif chart_type == 'bar':
-            trace_3 = go.Bar(x=get_x_axis_values_from_chosen_dataset(df_dset_3,descrip3), y=df_dset_3[duration_dset_3], name=sheet_name3,marker=dict(color=" #c3941e"))
+            trace_3 = go.Bar(x=get_x_axis_values_from_chosen_dataset(df_dset_3,descrip3), y=get_y_axis_values_from_chosen_dataset(df_dset_3,descrip3,duration_dset_3), name=sheet_name3,marker=dict(color=" #c3941e"))
         data.append(trace_3)
 
 
