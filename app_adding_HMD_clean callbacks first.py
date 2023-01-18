@@ -391,10 +391,7 @@ def update_table3_options_from_dsource(dsource,descrip):
 
 @app.callback(
     [Output(component_id='graph', component_property='figure'),Output(component_id='select_slider_1', component_property='max'),Output(component_id='select_slider_2', component_property='max'),Output(component_id='select_slider_3', component_property='max'),Output(component_id='slider_block_1', component_property='style'),Output(component_id='slider_block_2', component_property='style'),Output(component_id='slider_block_3', component_property='style')],
-    [Input(component_id='table_dropdown_1', component_property='value'),
-     Input(component_id='table_dropdown_2', component_property='value'),
-     Input(component_id='table_dropdown_3', component_property='value'),
-     Input(component_id='chart_type_dropdown', component_property='value'),
+    [Input(component_id='chart_type_dropdown', component_property='value'),
      Input(component_id='select_slider_1', component_property='value'),
      Input(component_id='select_slider_2', component_property='value'),
      Input(component_id='select_slider_3', component_property='value'),
@@ -404,7 +401,7 @@ def update_table3_options_from_dsource(dsource,descrip):
      dash.dependencies.Input('description_dropdown_2', 'value'),
      dash.dependencies.Input('description_dropdown_3', 'value')]
 )
-def update_figure(sheet_name1, sheet_name2, sheet_name3, chart_type,slider_1,slider_2,slider_3,graph_slider_value,graph_slider_value2,descrip1,descrip2,descrip3):
+def update_figure(chart_type,slider_1,slider_2,slider_3,graph_slider_value,graph_slider_value2,descrip1,descrip2,descrip3):
     print("def update_figure has been called at {}".format(datetime.now()))
 
 
