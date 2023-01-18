@@ -91,7 +91,7 @@ table_descriptions = df_filtered['Table Description'].tolist()
 #functions that use the dataframe df_table_summary that was initialised from excel spreadsheet at start of script
 
 def get_table_name_from_description(table_description):
-    print("get_table_name_from_description function called")
+    #print("get_table_name_from_description function called")
     result = df_table_summary.loc[df_table_summary['Table Description'] == table_description,'Table']
     return result.values.tolist()
 
@@ -101,12 +101,12 @@ def get_select_years_from_description(table_description):
     return result.values.tolist()
 
 def get_datasource_location_from_description(table_description):
-    print("read_datasource_location function called")
+    #print("read_datasource_location function called")
     result = df_table_summary.loc[df_table_summary['Table Description'] == table_description,'Datasource Location']
     return result.values.tolist()
 
 def get_datasource_from_description(table_description):
-    print("get_datasource_location function called")
+    #print("get_datasource_from_description function called")
     result = df_table_summary.loc[df_table_summary['Table Description'] == table_description,'Datasource']
     return result.values.tolist()
 
@@ -122,17 +122,17 @@ def get_table_description_list_from_datasource(dsource):
 #functions that work with the chosen dataframe for the figure
 
 def get_dataframe_from_description(table_description):
-    print("get_dataframe_from_description function called")
+    print("get_dataframe_from_description function called with:"+ str(table_description))
     #the means of obtaining a dataset is dependent on the dataset we are looking at
     #   for the 00 series there is a separate sheet for each table
     #   for the HMD......    
     if get_datasource_from_description(table_description) == ['IfoA 00 Series']:
         return pd.read_excel(get_datasource_location_from_description(table_description)[0], sheet_name=get_table_name_from_description(table_description)[0])
     elif get_datasource_from_description(table_description) == ['Human Mortality Database']:
-        print(pd.read_csv(get_datasource_location_from_description(table_description)[0]).head)
-        return pd.read_csv(get_datasource_location_from_description(table_description)[0])
+        print(pd.read_csv((get_datasource_location_from_description(table_description)[0]),header=1,delim_whitespace=True).head)
+        return pd.read_csv(get_datasource_location_from_description(table_description)[0],header=1,delim_whitespace=True)
     else:
-        print("get_dataframe_from_description function aint returning proper")
+        print("get_dataframe_from_description function aint returning proper when the following table description passed thru: "+ str(table_description))
         return [0]
     
 
@@ -467,7 +467,7 @@ def update_figure(sheet_name1, sheet_name2, sheet_name3, chart_type,slider_1,sli
 
     if sheet_name3 is not None:
         if chart_type == 'line':
-            trace_3 = go.Scatter(x=get_x_axis_values_from_chosen_dataset(df_dset_3,descrip3), name=sheet_name3,marker=dict(color=" #c3941e"))
+            trace_3 = go.Scatter(x=get_x_axis_values_from_chosen_dataset(df_dset_3,descrip3), y=df_dset_3[duration_dset_3],name=sheet_name3,marker=dict(color=" #c3941e"))
         elif chart_type == 'bar':
             trace_3 = go.Bar(x=get_x_axis_values_from_chosen_dataset(df_dset_3,descrip3), y=df_dset_3[duration_dset_3], name=sheet_name3,marker=dict(color=" #c3941e"))
         data.append(trace_3)
