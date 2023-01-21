@@ -212,6 +212,7 @@ def get_dataframe_from_description(table_description):
 def get_x_axis_values_from_chosen_dataset(dset,table_description,year_slider):
     print("get_x_axis_values_from_chosen_dataset function called")
     if get_datasource_from_description(table_description) == ['IfoA 00 Series']:
+        print("returning 00 series")
         return dset['Age x']
     elif get_datasource_from_description(table_description) == ['Human Mortality Database']:
         return dset.loc[dset['Year'] == year_slider,'Age']
@@ -220,7 +221,7 @@ def get_x_axis_values_from_chosen_dataset(dset,table_description,year_slider):
         return dset['Age x']
     else:
         print("get_x_axis_values_from_chosen_dataset function aint returning proper")
-        return [0]
+        return [0]*30
 
 def get_y_axis_values_from_chosen_dataset(dset,table_description,duration,year_slider):
     print("get_x_axis_values_from_chosen_dataset function called")
@@ -233,7 +234,7 @@ def get_y_axis_values_from_chosen_dataset(dset,table_description,duration,year_s
         return dset[duration]
     else:
         print("get_x_axis_values_from_chosen_dataset function aint returning proper")
-        return [0]
+        return [0]*30
 
 #-----------------------------------------------------------------------------------
 #                       OBJECTS FOR GRAPH
@@ -282,7 +283,7 @@ dataset1_card = dbc.Card(
                                             html.Br(),
                                             html.Br(),
                                             dbc.Label("Datasource"),
-                                            dcc.Dropdown(id='dsource_dropdown_1',options=dsource_dropdown_options,value=1,style={'font-size':'12px'}),
+                                            dcc.Dropdown(id='dsource_dropdown_1',options=dsource_dropdown_options,value=None,style={'font-size':'12px'}),
                                             html.Br(),
                                             dbc.Label("Description"),
                                             html.Br(),
@@ -311,7 +312,7 @@ dataset2_card = dbc.Card(
                                             html.Br(),
                                             html.Br(),
                                             dbc.Label("Datasource"),
-                                            dcc.Dropdown(id='dsource_dropdown_2',options=dsource_dropdown_options,value=1,style={'font-size':'12px'}),
+                                            dcc.Dropdown(id='dsource_dropdown_2',options=dsource_dropdown_options,value=None,style={'font-size':'12px'}),
                                             html.Br(),
                                             dbc.Label("Description"),
                                             html.Br(),
@@ -340,7 +341,7 @@ dataset3_card = dbc.Card(
                                             html.Br(),
                                             html.Br(),
                                             dbc.Label("Datasource"),
-                                            dcc.Dropdown(id='dsource_dropdown_3',options=dsource_dropdown_options,value=1,style={'font-size':'12px'}),
+                                            dcc.Dropdown(id='dsource_dropdown_3',options=dsource_dropdown_options,value=None,style={'font-size':'12px'}),
                                             html.Br(),
                                             dbc.Label("Description"),
                                             html.Br(),
@@ -531,6 +532,8 @@ def update_figure(chart_type,slider_1,slider_2,slider_3,graph_slider_value,graph
         elif chart_type == 'bar':
             trace_1 = go.Bar(x=get_x_axis_values_from_chosen_dataset(df_dset_1,descrip1,year_slider_1), y=get_y_axis_values_from_chosen_dataset(df_dset_1,descrip1,duration_dset_1,year_slider_1), name=str(get_table_name_from_description(descrip1)), marker=dict(color="#abe2fb"))
         data.append(trace_1)
+    #removing bar if nothing selected
+
 
 
     if get_table_name_from_description(descrip2) is not None:
@@ -547,7 +550,10 @@ def update_figure(chart_type,slider_1,slider_2,slider_3,graph_slider_value,graph
             trace_3 = go.Bar(x=get_x_axis_values_from_chosen_dataset(df_dset_3,descrip3,year_slider_3), y=get_y_axis_values_from_chosen_dataset(df_dset_3,descrip3,duration_dset_3,year_slider_3), name=str(get_table_name_from_description(descrip3)),marker=dict(color=" #c3941e"))
         data.append(trace_3)
 
-
+    #ensuring that no graph lines are shown on initial load
+    if descrip1 == None and descrip2 == None and descrip3 == None :
+        print("called")
+        data=[]
     
 
     fig = go.Figure(data=data)
