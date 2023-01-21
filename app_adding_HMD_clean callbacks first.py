@@ -131,6 +131,7 @@ print(HMD_table_3.head)
 #-------------------------------------------------------
 #datasources dropdown
 datasource_list = df_table_summary['Datasource'].unique().tolist()
+datasource_list = sorted(datasource_list)
 dsource_dropdown_options = []
 for i, option in enumerate(datasource_list):
     dsource_dropdown_options.append({'label': option, 'value': i+1})
