@@ -11,6 +11,9 @@
 #           FINANCIAL SIGNIFICANCE
 #        WOULD BE NICE TO CALL ON ONE OF THE OPEN SOURCE ACTUARIAL LIBRARIES
 #       IN ORDER TO DO THIS.
+#           ANY LIMITING AGE WILL HAVE TO BE THE MINIMUM MAXIMUM AGE IN EACH DATASET
+#           I THINK DATASETS THAT STOP AT SAY... BEFORE 90 SHOULD BE PREVENTED FROM
+#           ANNUITIES BEING CALCULATED
 # 
 # MODIFY SLIDERS 
 #           SO THAT DISPLAY ONLY WHEN APPROPRIATE DATASOURCE / TABLE DESCRIPTION CHOSEN
@@ -39,6 +42,9 @@
 #  ADD IN MORE INFORMATION INTO THE LEGEND DESCRIPTION
 #  GET LEGEND DESCRIPTION TO BE MORE INFORMATIVE
 #
+#
+#  WOULD BE GOOD TO HAVE SOME DETAILED DESCRIPTIONS OF THE DATASETS AND LINKS TO THE SOURCE
+#  DATA.
 
 
 
@@ -263,7 +269,7 @@ dataset1_card = dbc.Card(
                                             ], style= {'display': 'none'},id='slider_block_1'),
                                             html.Div([
                                                 dbc.Label("Year"),
-                                                dcc.Slider(id='year_slider_1',min=1920, max=2020, value=2020,step=1, marks={i: str(i) for i in range(1920,2020,10)})
+                                                dcc.Slider(id='year_slider_1',min=1920, max=2020, value=2020,step=1,included=False,tooltip={"placement": "bottom", "always_visible": True}, marks={i: str(i) for i in range(1920,2021,10)})
                                             ], style= {'display': 'none'},id='year_block_1')
                                 ]
                             )
@@ -292,7 +298,7 @@ dataset2_card = dbc.Card(
                                             ], style= {'display': 'none'},id='slider_block_2'),
                                             html.Div([
                                                 dbc.Label("Year"),
-                                                dcc.Slider(id='year_slider_2',min=1920, max=2020, value=2020,step=1, marks={i: str(i) for i in range(1920,2020,10)})
+                                                dcc.Slider(id='year_slider_2',min=1920, max=2020, value=2020,step=1,included=False,tooltip={"placement": "bottom", "always_visible": True}, marks={i: str(i) for i in range(1920,2021,10)})
                                             ], style= {'display': 'none'},id='year_block_2')
                                 ]
                             )
@@ -321,7 +327,7 @@ dataset3_card = dbc.Card(
                                             ], style= {'display': 'none'},id='slider_block_3'), 
                                             html.Div([
                                                 dbc.Label("Year"),
-                                                dcc.Slider(id='year_slider_3',min=1920, max=2020, value=2020,step=1, marks={i: str(i) for i in range(1920,2020,10)})
+                                                dcc.Slider(id='year_slider_3',min=1920, max=2020, value=2020,step=1,included=False,tooltip={"placement": "bottom", "always_visible": True}, marks={i: str(i) for i in range(1920,2021,10)})
                                             ], style= {'display': 'none'},id='year_block_3')                                               
                                 ]
                             )
@@ -445,10 +451,8 @@ def update_figure(chart_type,slider_1,slider_2,slider_3,graph_slider_value,graph
     print("def update_figure has been called at {}".format(datetime.now()))
 
 
-    #THIS SECTION NEEDS CHANGING SO THAT THE DATASET THAT IS READ IN IS DEPENDENT ON
-    #THE DATASOURCE THAT HAS BEEN CHOSEN.
-    #IT MAY BE BETTER AS A SEPARATE FUNCTION IN ORDER TO MAKE THIS CALLBACK FUNCTION
-    #A LITTLE EASIER TO UNDERSTAND
+    #OBTAIN THE DATASET THAT IS DEPENDENT ON
+    #THE DATA DESCRIPTION THAT HAS BEEN CHOSEN.
     df_dset_1 = get_dataframe_from_description(descrip1)
     df_dset_2 = get_dataframe_from_description(descrip2)
     df_dset_3 = get_dataframe_from_description(descrip3)
@@ -486,11 +490,9 @@ def update_figure(chart_type,slider_1,slider_2,slider_3,graph_slider_value,graph
     print("     graph slider value is:"+str(graph_slider_value))
        
 
-# we have a dataframe df_dset_1 2 and 3 which are set in our "objects for graph" section of the script
-# these hold our data for our figure
-
- #the whole sheet name thing is very 00 series specific and needs to be more generalised
- #    
+# we have a dataframe df_dset_1 2 and 3
+# OUR TRACE VARIABLES HOLD A BIT MORE INFO ON TYPE OF GRAPH AND CHOOSE APPROPRIATE COLUMS FROM OUR DATAFRAMES
+# IN ORDER SET X AND Y AXIS
     if get_table_name_from_description(descrip1) is not None:
         if chart_type == 'line':
             trace_1 = go.Scatter(x=get_x_axis_values_from_chosen_dataset(df_dset_1,descrip1,year_slider_1), y=get_y_axis_values_from_chosen_dataset(df_dset_1,descrip1,duration_dset_1,year_slider_1), name=str(get_table_name_from_description(descrip1)), marker=dict(color="#abe2fb"))
