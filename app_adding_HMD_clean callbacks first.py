@@ -94,6 +94,25 @@ series00_tables = []
 for i, option in enumerate(worksheets):
     series00_tables.append({'label': option, 'value': i+1})
 
+# Open the '92 series file
+#create a pandas/dataframe object
+xlsx = pd.ExcelFile('Mortality_tables/92series.xls')
+# Get the names of all the worksheets
+worksheets = xlsx.sheet_names
+#create empty dictionary to put all the worksheet names into
+dfs = {}
+# Read each worksheet into a dataframe and append it to the dictionary
+for worksheet in worksheets:
+    df = xlsx.parse(worksheet)
+    dfs[worksheet] = df
+#tables for 92series
+#create empty list
+series92_tables = []
+#populate list with the names of '92 series tables
+for i, option in enumerate(worksheets):
+    series92_tables.append({'label': option, 'value': i+1})
+
+
 
 #HUMAN MORTALITY DATABASE TABLES
 #tables for HMD
@@ -182,6 +201,8 @@ def get_dataframe_from_description(table_description):
     elif get_datasource_from_description(table_description) == ['Human Mortality Database']:
         print(pd.read_csv((get_datasource_location_from_description(table_description)[0]),header=1,delim_whitespace=True).head)
         return pd.read_csv(get_datasource_location_from_description(table_description)[0],header=1,delim_whitespace=True)
+    elif get_datasource_from_description(table_description) == ['IfoA 92 Series']:
+        return pd.read_excel(get_datasource_location_from_description(table_description)[0], sheet_name=get_table_name_from_description(table_description)[0])
     else:
         print("get_dataframe_from_description function aint returning proper when the following table description passed thru: "+ str(table_description))
         return [0]
@@ -194,6 +215,8 @@ def get_x_axis_values_from_chosen_dataset(dset,table_description,year_slider):
     elif get_datasource_from_description(table_description) == ['Human Mortality Database']:
         return dset.loc[dset['Year'] == year_slider,'Age']
         #return dset['Age']['Year'==year_slider]
+    elif get_datasource_from_description(table_description) == ['IfoA 92 Series']:
+        return dset['Age x']
     else:
         print("get_x_axis_values_from_chosen_dataset function aint returning proper")
         return [0]
@@ -205,6 +228,8 @@ def get_y_axis_values_from_chosen_dataset(dset,table_description,duration,year_s
     elif get_datasource_from_description(table_description) == ['Human Mortality Database']:
         return dset.loc[dset['Year'] == year_slider,'qx']
         #return dset['qx']['Year'==year_slider]
+    elif get_datasource_from_description(table_description) == ['IfoA 92 Series']:
+        return dset[duration]
     else:
         print("get_x_axis_values_from_chosen_dataset function aint returning proper")
         return [0]
@@ -398,6 +423,8 @@ def update_table1_options_from_dsource(dsource,descrip):
         return get_table_description_list_from_datasource(dsource_dropdown_options[dsource-1]['label']),{'display': 'none'}
     elif dsource_dropdown_options[dsource-1]['label'] == 'Human Mortality Database':
         return get_table_description_list_from_datasource(dsource_dropdown_options[dsource-1]['label']),{'display': 'block'}
+    elif dsource_dropdown_options[dsource-1]['label'] == 'IfoA 92 Series':
+        return get_table_description_list_from_datasource(dsource_dropdown_options[dsource-1]['label']),{'display': 'none'}
     else:
         year_block_1 = {'display': 'none'}
         return [{'label': 'ONS tables to be added Q1 2023'},year_block_1]
@@ -412,6 +439,8 @@ def update_table2_options_from_dsource(dsource,descrip):
         return get_table_description_list_from_datasource(dsource_dropdown_options[dsource-1]['label']),{'display': 'none'}
     elif dsource_dropdown_options[dsource-1]['label'] == 'Human Mortality Database':
         return get_table_description_list_from_datasource(dsource_dropdown_options[dsource-1]['label']),{'display': 'block'}
+    elif dsource_dropdown_options[dsource-1]['label'] == 'IfoA 92 Series':
+        return get_table_description_list_from_datasource(dsource_dropdown_options[dsource-1]['label']),{'display': 'none'}
     else:
         year_block_2 = {'display': 'none'}
         return [{'label': 'ONS tables to be added Q1 2023'},year_block_2]
@@ -427,6 +456,8 @@ def update_table3_options_from_dsource(dsource,descrip):
         return get_table_description_list_from_datasource(dsource_dropdown_options[dsource-1]['label']),{'display': 'none'}
     elif dsource_dropdown_options[dsource-1]['label'] == 'Human Mortality Database':
         return get_table_description_list_from_datasource(dsource_dropdown_options[dsource-1]['label']),{'display': 'block'}
+    elif dsource_dropdown_options[dsource-1]['label'] == 'IfoA 00 Series':
+        return get_table_description_list_from_datasource(dsource_dropdown_options[dsource-1]['label']),{'display': 'none'}
     else:
         year_block_3 = {'display': 'none'}
         return [{'label': 'ONS tables to be added Q1 2023'},year_block_3]
