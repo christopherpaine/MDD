@@ -3,7 +3,7 @@
 #---------------------------------------------------------------------------------------------
 
 # REMOVE ULTIMATE AGE MORTALITY RATES BECAUSE THEY DON'T LOOK NEAT ON THE GRAPH
-# HOWEVER BE CARFUL OF SOME LIFE OFFICE FUNCTIONS THAT I THINK MAY REQUIRE THEM (PERHAPS)
+# HOWEVER BE CARFUL OF WOL ASSURANCES IF USED WILL REQUIRE THEM 
 
 # ADD IN LIFE OFFICE FUNCTIONS
 #       A COUPLE OF KEY BADGES E.G. ASSURANCE FUNCTION; ANNUITY FUNCTION
@@ -21,8 +21,6 @@
 #
 #  GENERALLY SPEAKING THE UPDATE FIGURE CALLBACK COULD PROBABLY BENEFIT FROM HAVING MORE 
 #  OF IT FUNCTION ' ISED
-#
-# MODIFY INITIAL VALUES SO THAT NO GRAPHS SHOWING AT THE START
 #
 # MODIFY CALLBACKS SO THAT WHEN DATASOURCE CHANGES / TABLE DESCRIPTION AND PERHAPS ANY SLIDERS ARE CLEARED
 #
@@ -295,7 +293,7 @@ dataset1_card = dbc.Card(
                                                 dcc.Slider(id='select_slider_1',min=0, max=5, value=0,step=1, marks={i: str(i) for i in range(1,6)})
                                             ], style= {'display': 'none'},id='slider_block_1'),
                                             html.Div([
-                                                dbc.Label("Year"),
+                                                dbc.Label("Year of Data Collection"),
                                                 dcc.Slider(id='year_slider_1',min=1920, max=2020, value=2020,step=1,included=False,tooltip={"placement": "bottom", "always_visible": True}, marks={i: str(i) for i in range(1920,2021,10)})
                                             ], style= {'display': 'none'},id='year_block_1')
                                 ]
@@ -324,7 +322,7 @@ dataset2_card = dbc.Card(
                                                 dcc.Slider(id='select_slider_2',min=0, max=5, value=0,step=1, marks={i: str(i) for i in range(6)})
                                             ], style= {'display': 'none'},id='slider_block_2'),
                                             html.Div([
-                                                dbc.Label("Year"),
+                                                dbc.Label("Year of Data Collection"),
                                                 dcc.Slider(id='year_slider_2',min=1920, max=2020, value=2020,step=1,included=False,tooltip={"placement": "bottom", "always_visible": True}, marks={i: str(i) for i in range(1920,2021,10)})
                                             ], style= {'display': 'none'},id='year_block_2')
                                 ]
@@ -353,7 +351,7 @@ dataset3_card = dbc.Card(
                                                 dcc.Slider(id='select_slider_3',min=0, max=5, value=0,step=1, marks={i: str(i) for i in range(6)})
                                             ], style= {'display': 'none'},id='slider_block_3'), 
                                             html.Div([
-                                                dbc.Label("Year"),
+                                                dbc.Label("Year of Data Collection"),
                                                 dcc.Slider(id='year_slider_3',min=1920, max=2020, value=2020,step=1,included=False,tooltip={"placement": "bottom", "always_visible": True}, marks={i: str(i) for i in range(1920,2021,10)})
                                             ], style= {'display': 'none'},id='year_block_3')                                               
                                 ]
