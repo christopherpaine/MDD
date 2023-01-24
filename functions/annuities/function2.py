@@ -1,6 +1,7 @@
 import math
 import pandas as pd
 
+# add print statements to test this function
 
 def calculate_product(df):
     # =F16*G16
