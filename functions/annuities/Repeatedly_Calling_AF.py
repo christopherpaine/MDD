@@ -1,14 +1,14 @@
 import pandas as pd
-from Annuity_Function import calculate_product_value
+from functions.annuities.Annuity_Function import calculate_product_value
 
 
-def main():
+def annuity_series(df,param):
     # Reading dataframe from csv
-    df = pd.read_csv("function.csv")
+    #df = pd.read_csv("function.csv")
     # Get the size of dataframe
     df_size = len(df)
     # Param value
-    param = 0.04
+    #param = 0.04
     # Result and age arraylist
     final_results_array = []
     final_age_x_array = []
@@ -29,12 +29,14 @@ def main():
     final_dataframe['Age x'] = final_age_x_array
     final_dataframe['Result'] = final_results_array
 
+    return final_dataframe
+
     # Printing final dataframe
     # print(final_dataframe)
 
 
-if __name__ == "__main__":
-    main()
+#if __name__ == "__main__":
+#    main()
 
 #the first few results will look as follows:
 

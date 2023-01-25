@@ -65,6 +65,8 @@ import dash_bootstrap_components as dbc
 import plotly.graph_objs as go
 from datetime import datetime
 import numpy as np
+from functions.annuities.Repeatedly_Calling_AF import annuity_series
+
 #----------------------------------------------------------------------------------------
 #                      LOAD IN THE DATA
 #---------------------------------------------------------------------------------------------
@@ -395,12 +397,12 @@ output_card2 = dbc.Card(
                 
                 dcc.Graph(figure=fig,id='graph2'),
                 dbc.Label("Truncate X-Axis"),
-                dcc.RangeSlider(0,120,10,value=[0,120],
-                    id='graph_slider',allowCross=False,pushable=20),
-                dbc.Label("Truncate Y-Axis"),
-                dcc.RangeSlider(0,1,0.1,value=[0,1],
-                    id='graph_slider2',allowCross=False,pushable=0.1
-                )
+                #dcc.RangeSlider(0,120,10,value=[0,120],
+                #    id='graph_slider',allowCross=False,pushable=20),
+                #dbc.Label("Truncate Y-Axis"),
+                #dcc.RangeSlider(0,1,0.1,value=[0,1],
+                #    id='graph_slider2',allowCross=False,pushable=0.1
+                #)
             ]
         )
 
@@ -593,8 +595,27 @@ def update_figure(chart_type,slider_1,slider_2,slider_3,graph_slider_value,graph
                     xaxis=dict(gridcolor='white',range=graph_slider_value))
     
     fig.update_layout(yaxis=dict(gridcolor='white', range=graph_slider_value2))
-                    
 
+
+    #we don't want to calculate any annuity functions unless maximum select period is chosen.
+    #we therefore need a function to check maximum select period
+    #or determine not relevant
+    #we would also benefit from the figure being in a different tab and a different callback function because
+    #where it is currently located significantly slows down processing.
+
+    print (df_dset_1.head)
+    #newdf to feed into function
+    s1 = get_x_axis_values_from_chosen_dataset(df_dset_1,descrip1,year_slider_1)
+    s2 = get_y_axis_values_from_chosen_dataset(df_dset_1,descrip1,duration_dset_1,year_slider_1)
+    df = pd.concat([s1, s2], axis=1)
+    print("column titles")
+    df = df.rename(columns={df.columns[1]: "Rates"})
+    print(df.columns)
+    print("the df we are feeding in is:")
+    print(df)
+
+
+    annuity_series(df,0.04)
 
 
     #return fig,max_select_dset_1,max_select_dset_2,max_select_dset_3,slider_block_1,slider_block_2,slider_block_3

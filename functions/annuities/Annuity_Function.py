@@ -50,7 +50,7 @@ def calculate_p_x(df, param):
     col_p_x = []
     for index, row in df.iterrows():
         # =(1-B5)
-        val = row['Durations 2+']
+        val = row['Rates']
         column_value = (1-val)
         column_value = round(column_value, 4)
         col_p_x.append(column_value)
