@@ -390,6 +390,19 @@ output_card = dbc.Card(
                 )
             ]
         )
+output_card2 = dbc.Card(
+            [
+                
+                dcc.Graph(figure=fig,id='graph2'),
+                dbc.Label("Truncate X-Axis"),
+                dcc.RangeSlider(0,120,10,value=[0,120],
+                    id='graph_slider',allowCross=False,pushable=20),
+                dbc.Label("Truncate Y-Axis"),
+                dcc.RangeSlider(0,1,0.1,value=[0,1],
+                    id='graph_slider2',allowCross=False,pushable=0.1
+                )
+            ]
+        )
 
 
 Disclaimer_card =  dbc.Card(
@@ -609,7 +622,7 @@ column1 = dbc.Col([blue_card,fred ],width=4,style={'background-color': '#F3F5F7'
     
 
 column2 = dbc.Col(
-    [html.Div(style={"height": offset_value}), type_of_graph_card,html.Div(style={"height": offset_value}),output_card,html.Div(style={"height": offset_value}),Disclaimer_card],
+    [html.Div(style={"height": offset_value}), type_of_graph_card,html.Div(style={"height": offset_value}),output_card,html.Div(style={"height": offset_value}),output_card2,html.Div(style={"height": offset_value}),Disclaimer_card],
     width=8,
     style={'background-color': '#F3F5F7'}
 )
