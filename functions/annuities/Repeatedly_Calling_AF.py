@@ -1,23 +1,40 @@
-#import Annuity_Functions.py
+import pandas as pd
+from Annuity_Function import calculate_product_value
 
 
-#call a single function within the Annuity_functions.py in order to return the result ....  by feeding in the 2 parameters
-#i.e. dataframe and int rate (param2)
+def main():
+    # Reading dataframe from csv
+    df = pd.read_csv("function.csv")
+    # Get the size of dataframe
+    df_size = len(df)
+    # Param value
+    param = 0.04
+    # Result and age arraylist
+    final_results_array = []
+    final_age_x_array = []
+    final_dataframe = pd.DataFrame(columns=['Age x','Result'])
+    # Uncomment below for loop to skip last row result
+    # for index in range(df_size - 1):
+    for index in range(df_size):
+        # Get the dataframe from index to end of dataframe
+        dataframe = df[index:df_size]
+        dataframe = dataframe.reset_index()
+        age_x = dataframe['Age x'].iloc[0]
+        # Get result from Annuity_Function.py
+        result = calculate_product_value(dataframe,param)
+        final_results_array.append(result)
+        final_age_x_array.append(age_x)
+        print('Age x = ', age_x, " ", "Result = ", result)
+
+    final_dataframe['Age x'] = final_age_x_array
+    final_dataframe['Result'] = final_results_array
+
+    # Printing final dataframe
+    # print(final_dataframe)
 
 
-#loop calling our function within Annuity_functions.py
-#first it should send the original dataset  i.e. ages 17 all the way to 120
-#then send the original dataset less the first row i.e ages 18 all the way to 120
-#the loop should then do 19 to 120
-#20 to 120
-#21 to 120
-#and so on....
-
-
-
-
-#the final result should be a NEW dataframe within the Repeatedly_Calling_AF.py script  that is printed to the console....
-
+if __name__ == "__main__":
+    main()
 
 #the first few results will look as follows:
 
