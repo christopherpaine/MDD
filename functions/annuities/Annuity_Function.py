@@ -12,6 +12,7 @@ def calculate_product(df):
     df['product'] = product_values
     result = df['product'].sum()
     result = round(result, 12)
+    print(result)
     return result
 
 
@@ -63,12 +64,21 @@ def calculate_product_value(df, param2):
 
 def main():
     # Param 2 value
+
+    #THIS SHOULD BE A PARAMETER AND NOT HARDCODED
     param2 = 0.04
     # Read dataframe from csv
+
+    #THIS SHOULD BE A PARAMETER AND NOT HARDCODED
     df = pd.read_csv(".\\function.csv")
+
+
+
+
     # Call this function to get final result
     calculate_product_value(df, param2)
     print(df)
+    
 
 
 if __name__ == "__main__":
