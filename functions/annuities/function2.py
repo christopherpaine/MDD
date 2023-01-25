@@ -68,6 +68,7 @@ def main():
     df = pd.read_csv(".\\function.csv")
     # Call this function to get final result
     calculate_product_value(df, param2)
+    print(df)
 
 
 if __name__ == "__main__":
