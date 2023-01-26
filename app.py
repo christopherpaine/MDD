@@ -395,7 +395,10 @@ output_card = dbc.Card(
 output_card2 = dbc.Card(
             [
                 
-                dcc.Graph(figure=fig,id='graph2'),
+                dcc.Graph(
+                    #figure=fig,
+                    id='graph2'
+                    ),
                 dbc.Label("Truncate X-Axis"),
                 #dcc.RangeSlider(0,120,10,value=[0,120],
                 #    id='graph_slider',allowCross=False,pushable=20),
@@ -496,8 +499,8 @@ def update_table3_options_from_dsource(dsource,descrip):
      dash.dependencies.Input('year_slider_2', 'value'),
      dash.dependencies.Input('year_slider_3', 'value')]
 )
-def update_figure(chart_type,slider_1,slider_2,slider_3,graph_slider_value,graph_slider_value2,descrip1,descrip2,descrip3,year_slider_1,year_slider_2,year_slider_3):
-    print("def update_figure has been called at {}".format(datetime.now()))
+def update_figure1(chart_type,slider_1,slider_2,slider_3,graph_slider_value,graph_slider_value2,descrip1,descrip2,descrip3,year_slider_1,year_slider_2,year_slider_3):
+    print("def update_figure1 has been called at {}".format(datetime.now()))
 
 
     #OBTAIN THE DATASET THAT IS DEPENDENT ON
@@ -597,6 +600,32 @@ def update_figure(chart_type,slider_1,slider_2,slider_3,graph_slider_value,graph
     fig.update_layout(yaxis=dict(gridcolor='white', range=graph_slider_value2))
 
 
+
+    #return fig,max_select_dset_1,max_select_dset_2,max_select_dset_3,slider_block_1,slider_block_2,slider_block_3
+
+    return (fig,
+            max_select_dset_1,
+            max_select_dset_2,
+            max_select_dset_3,
+            slider_block_1,
+            slider_block_2,
+            slider_block_3)
+
+
+#callback function for when the life office functions tab is selected
+@app.callback(
+    Output(component_id='graph2', component_property='value'), 
+    [Input("tabs", "value")]
+    )
+def update_tab_content(tab):
+    print(tab)
+    if tab == "Life Office Functions":
+        print("second tab selected")
+        return 2
+
+
+
+    '''
     #we don't want to calculate any annuity functions unless maximum select period is chosen.
     #we therefore need a function to check maximum select period
     #or determine not relevant
@@ -616,17 +645,10 @@ def update_figure(chart_type,slider_1,slider_2,slider_3,graph_slider_value,graph
 
 
     annuity_series(df,0.04)
+    '''
 
 
-    #return fig,max_select_dset_1,max_select_dset_2,max_select_dset_3,slider_block_1,slider_block_2,slider_block_3
 
-    return (fig,
-            max_select_dset_1,
-            max_select_dset_2,
-            max_select_dset_3,
-            slider_block_1,
-            slider_block_2,
-            slider_block_3)
 
 
 # --------------------------------------------------------------------------------------
@@ -645,7 +667,7 @@ column1 = dbc.Col([blue_card,fred ],width=4,style={'background-color': '#F3F5F7'
 column2 = dbc.Col(
     [
         html.Div([
-                    dcc.Tabs([
+                    dcc.Tabs(id='tabs',children=[
                                 dcc.Tab(label='Age Specific Rates',
                                         children =
                                                     [
