@@ -456,6 +456,7 @@ def update_table1_options_from_dsource(dsource,descrip):
         else:
             year_block_1 = {'display': 'none'}
             return [{'label': 'ONS tables to be added Q1 2023'},year_block_1]
+    return {'label': 'Choose Datasource'},{'display': 'none'}
 
 @app.callback(
     [dash.dependencies.Output('description_dropdown_2', 'options'),Output(component_id='year_block_2', component_property='style')],
@@ -473,7 +474,7 @@ def update_table2_options_from_dsource(dsource,descrip):
         else:
             year_block_2 = {'display': 'none'}
             return [{'label': 'ONS tables to be added Q1 2023'},year_block_2]
-
+    return {'label': 'Choose Datasource'},{'display': 'none'}
 
 @app.callback(
     [dash.dependencies.Output('description_dropdown_3', 'options'),Output(component_id='year_block_3', component_property='style')],
@@ -491,7 +492,7 @@ def update_table3_options_from_dsource(dsource,descrip):
         else:
             year_block_3 = {'display': 'none'}
             return [{'label': 'ONS tables to be added Q1 2023'},year_block_3]
-
+    return {'label': 'Choose Datasource'},{'display': 'none'}
 
 
 #ideally we would separate out the outputs in the callback function so that we have one callback function of slider max values, one for figure, one for hiding slider blocks
