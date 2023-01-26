@@ -633,7 +633,7 @@ def update_figure(chart_type,slider_1,slider_2,slider_3,graph_slider_value,graph
 #                   SET THE LAYOUT OF THE APP
 #---------------------------------------------------------------------------------------
 
-fred = html.Div([dataset1_card, dataset2_card, dataset3_card],style={'overflow-y': 'scroll', 'height': '50%'})
+fred = html.Div([dataset1_card, dataset2_card, dataset3_card],style={'overflow-y': 'scroll', 'height': '100%'})
 
 # Calculate the height of blue_card in pixels
 blue_card_height = 10  # Replace with the actual height of blue_card
@@ -643,21 +643,39 @@ column1 = dbc.Col([blue_card,fred ],width=4,style={'background-color': '#F3F5F7'
     
 
 column2 = dbc.Col(
-    [html.Div(style={"height": offset_value}), type_of_graph_card,html.Div(style={"height": offset_value}),output_card,html.Div(style={"height": offset_value}),output_card2,html.Div(style={"height": offset_value}),Disclaimer_card],
+    [
+        html.Div([
+                    dcc.Tabs([
+                                dcc.Tab(label='Age Specific Rates',
+                                        children =
+                                                    [
+                                                                html.Div(style={"height": offset_value}), type_of_graph_card,html.Div(style={"height": offset_value}),output_card,html.Div(style={"height": offset_value}),html.Div(style={"height": offset_value}),Disclaimer_card
+                                                    ]
+                                
+                                
+                                                                            ),
+                                dcc.Tab(label='Life Office Functions',
+                                                     children =
+                                                    [
+                                                                html.Div(style={"height": offset_value}), #type_of_graph_card,
+                                                                html.Div(style={"height": offset_value}),output_card2,html.Div(style={"height": offset_value}),html.Div(style={"height": offset_value}),Disclaimer_card
+                                                    ]
+                                
+                                                                            ),
+                                dcc.Tab(label='3D'),
+                                                            ])
+                                        ]), 
+
+        
+    ],
     width=8,
     style={'background-color': '#F3F5F7'}
 )
 
-tabs =html.Div([
-    dcc.Tabs([
-        dcc.Tab(label='Tab one', children=[column2]),
-        dcc.Tab(label='Tab two'),
-        dcc.Tab(label='Tab three'),
-    ])
-])
+
 
 app.layout = html.Div(
-    [        dbc.Row([column1, tabs]),
+    [        dbc.Row([column1, column2]),
     ]
 )
 
