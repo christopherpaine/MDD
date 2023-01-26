@@ -2,6 +2,11 @@
 #                      SOME NOTES ON DEVELOPMENT IDEAS / REQUIREMENTS
 #---------------------------------------------------------------------------------------------
 #
+#  add in loading message for life office functions graph
+#   especially as it will slow down considerably when two addition
+#  datasets are added
+#
+#
 # AUTOMATICALLY SET TO MAXIMUM VALUE WHEN SUCH A DATASET IS CHOSEN AS ULTIMATE RATES ARE LIKELY TO BE RATES OF MOST INTEREST
 # AND IT MAY GO UNOTICED BY USER THAT THEY ARE LOOKING AT SELECT RATES OTHERWISE.
 #
