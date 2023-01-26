@@ -170,12 +170,14 @@ table_descriptions = df_filtered['Table Description'].tolist()
 #functions that use the dataframe df_table_summary that was initialised from excel spreadsheet at start of script
 
 def get_table_name_from_description(table_description):
-    #print("get_table_name_from_description function called")
     result = df_table_summary.loc[df_table_summary['Table Description'] == table_description,'Table']
-    return result.values.tolist()
+    if not result.empty:
+        return result.values.tolist()
+    else:
+        return None
 
 def get_select_years_from_description(table_description):
-    print("get_table_name_from_description function called")
+    #print("get_table_name_from_description function called")
     result = df_table_summary.loc[df_table_summary['Table Description'] == table_description,'Select Years']
     return result.values.tolist()
 
@@ -218,7 +220,7 @@ def get_dataframe_from_description(table_description):
     
 
 def get_x_axis_values_from_chosen_dataset(dset,table_description,year_slider):
-    print("get_x_axis_values_from_chosen_dataset function called")
+    #print("get_x_axis_values_from_chosen_dataset function called")
     if get_datasource_from_description(table_description) == ['IfoA 00 Series']:
         print("returning 00 series")
         return dset['Age x']
@@ -546,7 +548,7 @@ def update_figure1(chart_type,slider_1,slider_2,slider_3,graph_slider_value,grap
         slider_block_3 = {'display': 'block'}
 
 
-    print("     graph slider value is:"+str(graph_slider_value))
+    #print("     graph slider value is:"+str(graph_slider_value))
        
 
 # we have a dataframe df_dset_1 2 and 3
@@ -661,8 +663,10 @@ def update_tab_content(tab,slider_1_max,slider_1,descrip1,year_slider_1):
  #we will move the code below into a function
  #because this check will not be relevant if we have a dataset that does not have 
  #select rates
+    df=[]
     if slider_1_max:
         if slider_1 == slider_1_max[0]:
+            
             print("we have reached the maximum")
             print (df_dset_1.head)
             #newdf to feed into function
@@ -682,15 +686,18 @@ def update_tab_content(tab,slider_1_max,slider_1,descrip1,year_slider_1):
 
     #we now want to set the values of our graph2 figure
     data2 = []
+    print("get_table_name_from_description(descrip1)... is it none or not")
+    print(get_table_name_from_description(descrip1))
     if get_table_name_from_description(descrip1) is not None:
-        trace_1 = go.Scatter(x=df['Age x'], y=df['Result'], name=str(get_table_name_from_description(descrip1)), marker=dict(color="#abe2fb"))
-        data2.append(trace_1)
+        if df != []:
+            trace_1 = go.Scatter(x=df['Age x'], y=df['Result'], name=str(get_table_name_from_description(descrip1)), marker=dict(color="#abe2fb"))
+            data2.append(trace_1)
     
-    print("value of data2 is")
-    print(data2)
+    #print("value of data2 is")
+    #print(data2)
     #preventing error if data2 is empty list
     if data2 == []:
-        print("attempting to debug fig2 referenced before assignment error")
+        #print("attempting to debug fig2 referenced before assignment error")
         trace_1 = go.Scatter(x=[0], y=[0])
         data2.append(trace_1)
 
