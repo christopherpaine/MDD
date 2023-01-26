@@ -644,6 +644,14 @@ def update_tab_content(tab,slider_1_max,slider_1,descrip1,year_slider_1):
     #we need to obtain dataset 1
     df_dset_1 = get_dataframe_from_description(descrip1)
 
+    #USE SLIDER VALUES TO DETERMINE LOOKUP FIELD VALUE
+    #THIS IS ALSO VERY SPECIFIC TO THE 00 SERIES FIELD NAMES
+    #AND WOULD PROBABLY BE BEST TAKEN OUT INTO A FUNCTION
+    #AND THE CALLBACK FUNCTION MADE MORE GENERALISED FOR ALL DATASETS
+    duration_dset_1 = "Duration "+ str(slider_1)
+
+
+
 
  #we don't want to calculate any annuity functions unless maximum select period is chosen. we therefore need a function to check maximum select period
  #we will move the code below into a function
@@ -653,20 +661,16 @@ def update_tab_content(tab,slider_1_max,slider_1,descrip1,year_slider_1):
         #newdf to feed into function
         s1 = get_x_axis_values_from_chosen_dataset(df_dset_1,descrip1,year_slider_1)
         print (s1.head)
-    '''
-    print (df_dset_1.head)
-    
-    s2 = get_y_axis_values_from_chosen_dataset(df_dset_1,descrip1,duration_dset_1,year_slider_1)
-    df = pd.concat([s1, s2], axis=1)
-    print("column titles")
-    df = df.rename(columns={df.columns[1]: "Rates"})
-    print(df.columns)
-    print("the df we are feeding in is:")
-    print(df)
+        s2 = get_y_axis_values_from_chosen_dataset(df_dset_1,descrip1,duration_dset_1,year_slider_1)
+        print (s2.head)
+        df = pd.concat([s1, s2], axis=1)
+        print("column titles")
+        df = df.rename(columns={df.columns[1]: "Rates"})
+        print(df.columns)
+        print("the df we are feeding in is:")
+        print(df)
+        annuity_series(df,0.04)
 
-
-    annuity_series(df,0.04)
-    '''
 
     return 2
 

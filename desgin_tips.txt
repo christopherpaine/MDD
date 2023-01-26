@@ -1,0 +1,14 @@
+In general, it's best to keep each callback function as small and focused as possible.
+this makes them eaiser to understand and debug
+
+i(n fact a general programming principle, try to keep to small contained easy to understand functions.)
+
+there may be cases where you need to break a callback function into multiple smaller functions, for example:
+
+    Organization: When you have a complex callback function that performs multiple tasks, breaking it up into multiple functions can make the code easier to read and understand. For example, you might have one function that performs data preprocessing, another function that performs calculations, and a third function that updates the output.
+
+    Reusability: By breaking a callback function into multiple smaller functions, you can make the code more reusable. For example, you might have a function that performs data preprocessing that you want to reuse in multiple callbacks, instead of copying and pasting the same code multiple times.
+
+    Ease of testing: By breaking a callback function into smaller functions, you can make it easier to test each function separately. This makes it easier to identify bugs and errors, and to write test cases for your code.
+
+    Decoupling: Breaking a callback function into multiple smaller functions can help to decouple the different parts of the logic. This can make it easier to change or update one part of the code without affecting other parts.
