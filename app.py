@@ -679,7 +679,7 @@ def update_tab_content(tab,slider_1_max,slider_1,descrip1,year_slider_1):
         data2 = []
         if get_table_name_from_description(descrip1) is not None:
             trace_1 = go.Scatter(x=df['Age x'], y=df['Result'], name=str(get_table_name_from_description(descrip1)), marker=dict(color="#abe2fb"))
-
+            data2.append(trace_1)
         fig2 = go.Figure(data=data2)
 
         y_max_list =[]
