@@ -402,8 +402,7 @@ output_card2 = dbc.Card(
                 
                 dcc.Graph(
                     #figure=fig,
-                    id='graph2'
-                    ),
+                    id='graph2'),
                 dbc.Label("Truncate X-Axis"),
                 #dcc.RangeSlider(0,120,10,value=[0,120],
                 #    id='graph_slider',allowCross=False,pushable=20),
@@ -662,50 +661,55 @@ def update_tab_content(tab,slider_1_max,slider_1,descrip1,year_slider_1):
  #we will move the code below into a function
  #because this check will not be relevant if we have a dataset that does not have 
  #select rates
-    if slider_1 == slider_1_max[0]:
-        print("we have reached the maximum")
-        print (df_dset_1.head)
-        #newdf to feed into function
-        s1 = get_x_axis_values_from_chosen_dataset(df_dset_1,descrip1,year_slider_1)
-        print (s1.head)
-        s2 = get_y_axis_values_from_chosen_dataset(df_dset_1,descrip1,duration_dset_1,year_slider_1)
-        print (s2.head)
-        df = pd.concat([s1, s2], axis=1)
-        print("column titles")
-        df = df.rename(columns={df.columns[1]: "Rates"})
-        print(df.columns)
-        print("the df we are feeding in is:")
-        print(df)
-        df = annuity_series(df,0.04)
-        print (df)
+    if slider_1_max:
+        if slider_1 == slider_1_max[0]:
+            print("we have reached the maximum")
+            print (df_dset_1.head)
+            #newdf to feed into function
+            s1 = get_x_axis_values_from_chosen_dataset(df_dset_1,descrip1,year_slider_1)
+            print (s1.head)
+            s2 = get_y_axis_values_from_chosen_dataset(df_dset_1,descrip1,duration_dset_1,year_slider_1)
+            print (s2.head)
+            df = pd.concat([s1, s2], axis=1)
+            print("column titles")
+            df = df.rename(columns={df.columns[1]: "Rates"})
+            print(df.columns)
+            print("the df we are feeding in is:")
+            print(df)
+            df = annuity_series(df,0.04)
+            print (df)
 
 
-        #we now want to set the values of our graph2 figure
-        data2 = []
-        if get_table_name_from_description(descrip1) is not None:
-            trace_1 = go.Scatter(x=df['Age x'], y=df['Result'], name=str(get_table_name_from_description(descrip1)), marker=dict(color="#abe2fb"))
-            data2.append(trace_1)
-        fig2 = go.Figure(data=data2)
-
-        y_max_list =[]
-        # iterate through the traces
-        for trace in fig2.data:
-            # find the maximum y value for the current trace
-            y_max = max(trace.y)
-            # append the maximum y value to the list
-            y_max_list.append(y_max)
-
+    #we now want to set the values of our graph2 figure
+    data2 = []
+    if get_table_name_from_description(descrip1) is not None:
+        trace_1 = go.Scatter(x=df['Age x'], y=df['Result'], name=str(get_table_name_from_description(descrip1)), marker=dict(color="#abe2fb"))
+        data2.append(trace_1)
+    
+    print("value of data2 is")
+    print(data2)
+    #preventing error if data2 is empty list
+    if data2 == []:
+        print("attempting to debug fig2 referenced before assignment error")
+        trace_1 = go.Scatter(x=[0], y=[0])
+        data2.append(trace_1)
 
 
 
-        # Set the xaxis title to "Age"
-        fig2.update_layout(xaxis=dict(title="Ageₓ"))
-        # Set the yaxis title to "qₓ"
-        fig2.update_layout(yaxis=dict(title="aₓ"))
+    fig2 = go.Figure(data=data2)
 
-        fig2.update_layout(yaxis=dict(gridcolor='white', range=[0,30]))
-        fig2.update_layout(xaxis=dict(gridcolor='white', range=[0,120]))
+    # Set the xaxis title to "Age"
+    fig2.update_layout(xaxis=dict(title="Ageₓ"))
+    # Set the yaxis title to "qₓ"
+    fig2.update_layout(yaxis=dict(title="aₓ"))
 
+    fig2.update_layout(yaxis=dict(gridcolor='white', range=[0,30]))
+    fig2.update_layout(xaxis=dict(gridcolor='white', range=[0,120]))
+    fig2.update_layout(title='PV of £1 annuity due')
+    fig2.update_layout(paper_bgcolor='white',
+                plot_bgcolor='white', )
+   
+                     
 
     return fig2
 
