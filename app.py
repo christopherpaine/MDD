@@ -445,32 +445,34 @@ Disclaimer_card =  dbc.Card(
     [dash.dependencies.Input('dsource_dropdown_1', 'value'),dash.dependencies.Input('description_dropdown_1', 'value')]
 )
 def update_table1_options_from_dsource(dsource,descrip):
-    print("def update_table1_options_from_dsource has been called {}".format(datetime.now()))
-    if dsource_dropdown_options[dsource-1]['label'] == 'IfoA 00 Series':
-        return get_table_description_list_from_datasource(dsource_dropdown_options[dsource-1]['label']),{'display': 'none'}
-    elif dsource_dropdown_options[dsource-1]['label'] == 'Human Mortality Database':
-        return get_table_description_list_from_datasource(dsource_dropdown_options[dsource-1]['label']),{'display': 'block'}
-    elif dsource_dropdown_options[dsource-1]['label'] == 'IfoA 92 Series':
-        return get_table_description_list_from_datasource(dsource_dropdown_options[dsource-1]['label']),{'display': 'none'}
-    else:
-        year_block_1 = {'display': 'none'}
-        return [{'label': 'ONS tables to be added Q1 2023'},year_block_1]
+    #print("def update_table1_options_from_dsource has been called {}".format(datetime.now()))
+    if dsource is not None:
+        if dsource_dropdown_options[dsource-1]['label'] == 'IfoA 00 Series':
+            return get_table_description_list_from_datasource(dsource_dropdown_options[dsource-1]['label']),{'display': 'none'}
+        elif dsource_dropdown_options[dsource-1]['label'] == 'Human Mortality Database':
+            return get_table_description_list_from_datasource(dsource_dropdown_options[dsource-1]['label']),{'display': 'block'}
+        elif dsource_dropdown_options[dsource-1]['label'] == 'IfoA 92 Series':
+            return get_table_description_list_from_datasource(dsource_dropdown_options[dsource-1]['label']),{'display': 'none'}
+        else:
+            year_block_1 = {'display': 'none'}
+            return [{'label': 'ONS tables to be added Q1 2023'},year_block_1]
 
 @app.callback(
     [dash.dependencies.Output('description_dropdown_2', 'options'),Output(component_id='year_block_2', component_property='style')],
     [dash.dependencies.Input('dsource_dropdown_2', 'value'),dash.dependencies.Input('description_dropdown_2', 'value')]
 )
 def update_table2_options_from_dsource(dsource,descrip):
-    print("def update_table2_options_from_dsource has been called at {}".format(datetime.now()))  
-    if dsource_dropdown_options[dsource-1]['label'] == 'IfoA 00 Series':
-        return get_table_description_list_from_datasource(dsource_dropdown_options[dsource-1]['label']),{'display': 'none'}
-    elif dsource_dropdown_options[dsource-1]['label'] == 'Human Mortality Database':
-        return get_table_description_list_from_datasource(dsource_dropdown_options[dsource-1]['label']),{'display': 'block'}
-    elif dsource_dropdown_options[dsource-1]['label'] == 'IfoA 92 Series':
-        return get_table_description_list_from_datasource(dsource_dropdown_options[dsource-1]['label']),{'display': 'none'}
-    else:
-        year_block_2 = {'display': 'none'}
-        return [{'label': 'ONS tables to be added Q1 2023'},year_block_2]
+    #print("def update_table2_options_from_dsource has been called at {}".format(datetime.now()))  
+    if dsource is not None:
+        if dsource_dropdown_options[dsource-1]['label'] == 'IfoA 00 Series':
+            return get_table_description_list_from_datasource(dsource_dropdown_options[dsource-1]['label']),{'display': 'none'}
+        elif dsource_dropdown_options[dsource-1]['label'] == 'Human Mortality Database':
+            return get_table_description_list_from_datasource(dsource_dropdown_options[dsource-1]['label']),{'display': 'block'}
+        elif dsource_dropdown_options[dsource-1]['label'] == 'IfoA 92 Series':
+            return get_table_description_list_from_datasource(dsource_dropdown_options[dsource-1]['label']),{'display': 'none'}
+        else:
+            year_block_2 = {'display': 'none'}
+            return [{'label': 'ONS tables to be added Q1 2023'},year_block_2]
 
 
 @app.callback(
@@ -478,16 +480,17 @@ def update_table2_options_from_dsource(dsource,descrip):
     [dash.dependencies.Input('dsource_dropdown_3', 'value'),dash.dependencies.Input('description_dropdown_3', 'value')]
 )
 def update_table3_options_from_dsource(dsource,descrip):
-    print("def update_table3_options_from_dsource has been called at {}".format(datetime.now()))
-    if dsource_dropdown_options[dsource-1]['label'] == 'IfoA 00 Series':
-        return get_table_description_list_from_datasource(dsource_dropdown_options[dsource-1]['label']),{'display': 'none'}
-    elif dsource_dropdown_options[dsource-1]['label'] == 'Human Mortality Database':
-        return get_table_description_list_from_datasource(dsource_dropdown_options[dsource-1]['label']),{'display': 'block'}
-    elif dsource_dropdown_options[dsource-1]['label'] == 'IfoA 00 Series':
-        return get_table_description_list_from_datasource(dsource_dropdown_options[dsource-1]['label']),{'display': 'none'}
-    else:
-        year_block_3 = {'display': 'none'}
-        return [{'label': 'ONS tables to be added Q1 2023'},year_block_3]
+    #print("def update_table3_options_from_dsource has been called at {}".format(datetime.now()))
+    if dsource is not None:
+        if dsource_dropdown_options[dsource-1]['label'] == 'IfoA 00 Series':
+            return get_table_description_list_from_datasource(dsource_dropdown_options[dsource-1]['label']),{'display': 'none'}
+        elif dsource_dropdown_options[dsource-1]['label'] == 'Human Mortality Database':
+            return get_table_description_list_from_datasource(dsource_dropdown_options[dsource-1]['label']),{'display': 'block'}
+        elif dsource_dropdown_options[dsource-1]['label'] == 'IfoA 00 Series':
+            return get_table_description_list_from_datasource(dsource_dropdown_options[dsource-1]['label']),{'display': 'none'}
+        else:
+            year_block_3 = {'display': 'none'}
+            return [{'label': 'ONS tables to be added Q1 2023'},year_block_3]
 
 
 
@@ -689,7 +692,7 @@ def update_tab_content(tab,slider_1_max,slider_1,descrip1,year_slider_1):
     print("get_table_name_from_description(descrip1)... is it none or not")
     print(get_table_name_from_description(descrip1))
     if get_table_name_from_description(descrip1) is not None:
-        if df != []:
+        if df.empty:
             trace_1 = go.Scatter(x=df['Age x'], y=df['Result'], name=str(get_table_name_from_description(descrip1)), marker=dict(color="#abe2fb"))
             data2.append(trace_1)
     
