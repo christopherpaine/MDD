@@ -648,8 +648,16 @@ column2 = dbc.Col(
     style={'background-color': '#F3F5F7'}
 )
 
+tabs =html.Div([
+    dcc.Tabs([
+        dcc.Tab(label='Tab one', children=[column2]),
+        dcc.Tab(label='Tab two'),
+        dcc.Tab(label='Tab three'),
+    ])
+])
+
 app.layout = html.Div(
-    [        dbc.Row([column1, column2]),
+    [        dbc.Row([column1, tabs]),
     ]
 )
 
