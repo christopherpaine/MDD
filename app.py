@@ -617,7 +617,7 @@ def update_figure1(chart_type,slider_1,slider_2,slider_3,graph_slider_value,grap
 
 #callback function for when the life office functions tab is selected
 @app.callback(
-    Output(component_id='graph2', component_property='value'), 
+    Output(component_id='graph2', component_property='figure'), 
     [Input("tabs", "value"),
     Input(component_id='select_slider_1', component_property='max'),
     #Input(component_id='chart_type_dropdown', component_property='value'),
@@ -655,6 +655,8 @@ def update_tab_content(tab,slider_1_max,slider_1,descrip1,year_slider_1):
 
  #we don't want to calculate any annuity functions unless maximum select period is chosen. we therefore need a function to check maximum select period
  #we will move the code below into a function
+ #because this check will not be relevant if we have a dataset that does not have 
+ #select rates
     if slider_1 == slider_1_max[0]:
         print("we have reached the maximum")
         print (df_dset_1.head)
@@ -669,10 +671,38 @@ def update_tab_content(tab,slider_1_max,slider_1,descrip1,year_slider_1):
         print(df.columns)
         print("the df we are feeding in is:")
         print(df)
-        annuity_series(df,0.04)
+        df = annuity_series(df,0.04)
+        print (df)
 
 
-    return 2
+        #we now want to set the values of our graph2 figure
+        data2 = []
+        if get_table_name_from_description(descrip1) is not None:
+            trace_1 = go.Scatter(x=df['Age x'], y=df['Result'], name=str(get_table_name_from_description(descrip1)), marker=dict(color="#abe2fb"))
+
+        fig2 = go.Figure(data=data2)
+
+        y_max_list =[]
+        # iterate through the traces
+        for trace in fig2.data:
+            # find the maximum y value for the current trace
+            y_max = max(trace.y)
+            # append the maximum y value to the list
+            y_max_list.append(y_max)
+
+
+
+
+        # Set the xaxis title to "Age"
+        fig2.update_layout(xaxis=dict(title="Ageₓ"))
+        # Set the yaxis title to "qₓ"
+        fig2.update_layout(yaxis=dict(title="aₓ"))
+
+        fig2.update_layout(yaxis=dict(gridcolor='white', range=[0,30]))
+        fig2.update_layout(xaxis=dict(gridcolor='white', range=[0,120]))
+
+
+    return fig2
 
 
 
