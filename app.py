@@ -667,7 +667,7 @@ def update_tab_content(tab,slider_1_max,slider_1,descrip1,year_slider_1):
  #we will move the code below into a function
  #because this check will not be relevant if we have a dataset that does not have 
  #select rates
-    df=[]
+    df=pd.DataFrame()
     if slider_1_max:
         if slider_1 == slider_1_max[0]:
             
@@ -693,7 +693,9 @@ def update_tab_content(tab,slider_1_max,slider_1,descrip1,year_slider_1):
     print("get_table_name_from_description(descrip1)... is it none or not")
     print(get_table_name_from_description(descrip1))
     if get_table_name_from_description(descrip1) is not None:
-        if df.empty:
+        print ("df.empty gives")
+        print(df.empty)
+        if df.empty == False:
             trace_1 = go.Scatter(x=df['Age x'], y=df['Result'], name=str(get_table_name_from_description(descrip1)), marker=dict(color="#abe2fb"))
             data2.append(trace_1)
     
