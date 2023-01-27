@@ -733,8 +733,12 @@ def update_tab_content(tab,slider_1_max,slider_1,descrip1,year_slider_1):
         print ("df.empty gives")
         print(df.empty)
         if df.empty == False:
-            trace_1 = go.Scatter(x=df['Age x'], y=df['Result'], name=str(get_table_name_from_description(descrip1)), marker=dict(color="#abe2fb"))
-            data2.append(trace_1)
+            add_trace_line_to_figure_data(data2,df['Age x'],df['Result'],descrip1,1)
+
+
+
+            #trace_1 = go.Scatter(x=df['Age x'], y=df['Result'], name=str(get_table_name_from_description(descrip1)), marker=dict(color="#abe2fb"))
+            #data2.append(trace_1)
     
     #print("value of data2 is")
     #print(data2)
