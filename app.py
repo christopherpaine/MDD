@@ -258,8 +258,8 @@ def set_figure_grid_white(fig):
     return fig
 
 def set_figure_axis_range(fig,x,y):
-    fig.update_layout(yaxis=dict(y))
-    fig.update_layout(xaxis=dict(x))
+    fig.update_layout(yaxis=dict(range = y))
+    fig.update_layout(xaxis=dict(range =x))
 
     return fig
 
