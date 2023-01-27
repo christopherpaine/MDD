@@ -246,6 +246,30 @@ def get_y_axis_values_from_chosen_dataset(dset,table_description,duration,year_s
         print("get_x_axis_values_from_chosen_dataset function aint returning proper")
         return [0]*30
 
+
+
+
+#graph formatting functions
+
+def set_figure_grid_white(fig):
+    fig.update_layout(yaxis=dict(gridcolor='white'))
+    fig.update_layout(xaxis=dict(gridcolor='white'))
+    fig.update_layout(paper_bgcolor='white',plot_bgcolor='white', )
+    return fig
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #-----------------------------------------------------------------------------------
 #                       OBJECTS FOR GRAPH
 #---------------------------------------------------------------------------------
@@ -605,12 +629,11 @@ def update_figure1(chart_type,slider_1,slider_2,slider_3,graph_slider_value,grap
     fig.update_layout(xaxis=dict(title="Ageₓ"))
     # Set the yaxis title to "qₓ"
     fig.update_layout(yaxis=dict(title="qₓ"))
-    fig.update_layout(
-                    paper_bgcolor='white',
-                    plot_bgcolor='white',
-                    xaxis=dict(gridcolor='white',range=graph_slider_value))
     
-    fig.update_layout(yaxis=dict(gridcolor='white', range=graph_slider_value2))
+    set_figure_grid_white(fig)
+    
+    fig.update_layout(xaxis=dict(range=graph_slider_value))
+    fig.update_layout(yaxis=dict(range=graph_slider_value2))
 
 
 
@@ -716,12 +739,13 @@ def update_tab_content(tab,slider_1_max,slider_1,descrip1,year_slider_1):
     # Set the yaxis title to "qₓ"
     fig2.update_layout(yaxis=dict(title="aₓ"))
 
-    fig2.update_layout(yaxis=dict(gridcolor='white', range=[0,30]))
-    fig2.update_layout(xaxis=dict(gridcolor='white', range=[0,120]))
+    fig2.update_layout(yaxis=dict(range=[0,30]))
+    fig2.update_layout(xaxis=dict(range=[0,120]))
+
+    set_figure_grid_white(fig2)
+
     fig2.update_layout(title='PV of £1 annuity due')
-    fig2.update_layout(paper_bgcolor='white',
-                plot_bgcolor='white', )
-   
+ 
                      
 
     return fig2
