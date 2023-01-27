@@ -268,7 +268,18 @@ def set_figure_titles(fig,x,y):
     fig.update_layout(yaxis=dict(title=y))
     return fig
 
-
+def add_trace_line_to_figure_data(data,x_values,y_values,dropdown_description,colour):
+        if colour == 1:
+            colr = "#abe2fb"
+        elif colour == 2:
+            colr = "#002c53"
+        elif colour == 3:
+            colr = "#c3941e"
+        else:
+            colr = "#000000" # default value
+        trace = go.Scatter(x=x_values, y=y_values,name=str(get_table_name_from_description(dropdown_description)),marker=dict(color=colr))
+        data.append(trace)   
+        #no need for return as passing in a mutable object   
 
 
 
@@ -592,10 +603,14 @@ def update_figure1(chart_type,slider_1,slider_2,slider_3,graph_slider_value,grap
 # IN ORDER SET X AND Y AXIS
     if get_table_name_from_description(descrip1) is not None:
         if chart_type == 'line':
-            trace_1 = go.Scatter(x=get_x_axis_values_from_chosen_dataset(df_dset_1,descrip1,year_slider_1), y=get_y_axis_values_from_chosen_dataset(df_dset_1,descrip1,duration_dset_1,year_slider_1), name=str(get_table_name_from_description(descrip1)), marker=dict(color="#abe2fb"))
+            add_trace_line_to_figure_data(data,get_x_axis_values_from_chosen_dataset(df_dset_1,descrip1,year_slider_1),get_y_axis_values_from_chosen_dataset(df_dset_1,descrip1,duration_dset_1,year_slider_1),descrip1,1)
+
+
+
+            #trace_1 = go.Scatter(x=get_x_axis_values_from_chosen_dataset(df_dset_1,descrip1,year_slider_1), y=get_y_axis_values_from_chosen_dataset(df_dset_1,descrip1,duration_dset_1,year_slider_1), name=str(get_table_name_from_description(descrip1)), marker=dict(color="#abe2fb"))
         elif chart_type == 'bar':
             trace_1 = go.Bar(x=get_x_axis_values_from_chosen_dataset(df_dset_1,descrip1,year_slider_1), y=get_y_axis_values_from_chosen_dataset(df_dset_1,descrip1,duration_dset_1,year_slider_1), name=str(get_table_name_from_description(descrip1)), marker=dict(color="#abe2fb"))
-        data.append(trace_1)
+            data.append(trace_1)
     #removing bar if nothing selected
 
 
