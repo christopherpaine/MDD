@@ -582,9 +582,9 @@ def update_table3_options_from_dsource(dsource,descrip):
      dash.dependencies.Input('year_slider_3', 'value')]
 )
 def update_figure1(chart_type,slider_1,slider_2,slider_3,graph_slider_value,graph_slider_value2,descrip1,descrip2,descrip3,year_slider_1,year_slider_2,year_slider_3):
-    print("def update_figure1 has been called at {}".format(datetime.now()))
 
 
+    
     #OBTAIN THE DATASET THAT IS DEPENDENT ON
     #THE DATA DESCRIPTION THAT HAS BEEN CHOSEN.
     df_dset_1 = get_dataframe_from_description(descrip1)
