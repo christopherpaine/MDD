@@ -217,7 +217,22 @@ def get_dataframe_from_description(table_description):
     else:
         print("get_dataframe_from_description function aint returning proper when the following table description passed thru: "+ str(table_description))
         return [0]
-    
+
+def get_dataframe_from_description2(*table_descriptions):
+    dataframes = []
+    for table_description in table_descriptions:
+        if get_datasource_from_description(table_description) == ['IfoA 00 Series']:
+            dataframes.append(pd.read_excel(get_datasource_location_from_description(table_description)[0], sheet_name=get_table_name_from_description(table_description)[0]))
+        elif get_datasource_from_description(table_description) == ['Human Mortality Database']:
+            dataframes.append(pd.read_csv(get_datasource_location_from_description(table_description)[0],header=1,delim_whitespace=True))
+        elif get_datasource_from_description(table_description) == ['IfoA 92 Series']:
+            dataframes.append(pd.read_excel(get_datasource_location_from_description(table_description)[0], sheet_name=get_table_name_from_description(table_description)[0]))
+        else:
+            print("get_dataframe_from_description function aint returning proper when the following table description passed thru: "+ str(table_description))
+    return dataframes
+
+
+
 
 def get_x_axis_values_from_chosen_dataset(dset,table_description,year_slider):
     #print("get_x_axis_values_from_chosen_dataset function called")
@@ -245,6 +260,13 @@ def get_y_axis_values_from_chosen_dataset(dset,table_description,duration,year_s
     else:
         print("get_x_axis_values_from_chosen_dataset function aint returning proper")
         return [0]*30
+
+
+def duration_headings_from_select_sliders(*slider_values):
+    duration_titles=[]
+    for slider_value in slider_values:
+        duration_titles.append("Duration "+ str(slider_value))
+    return duration_titles
 
 
 
@@ -581,56 +603,21 @@ def update_table3_options_from_dsource(dsource,descrip):
      dash.dependencies.Input('year_slider_2', 'value'),
      dash.dependencies.Input('year_slider_3', 'value')]
 )
-def update_figure1(chart_type,slider_1,slider_2,slider_3,graph_slider_value,graph_slider_value2,descrip1,descrip2,descrip3,year_slider_1,year_slider_2,year_slider_3):
-
-
-    
-    #OBTAIN THE DATASET THAT IS DEPENDENT ON
-    #THE DATA DESCRIPTION THAT HAS BEEN CHOSEN.
-    df_dset_1 = get_dataframe_from_description(descrip1)
-    df_dset_2 = get_dataframe_from_description(descrip2)
-    df_dset_3 = get_dataframe_from_description(descrip3)
-
+def update_figure1(chart_type,slider_1,slider_2,slider_3,graph_slider_value,graph_slider_value2,descrip1,descrip2,descrip3,year_slider_1,year_slider_2,year_slider_3):   
+    df_dset = get_dataframe_from_description2(descrip1,descrip2,descrip3)
     data = []
-
-    #USE SLIDER VALUES TO DETERMINE LOOKUP FIELD VALUE
-    #THIS IS ALSO VERY SPECIFIC TO THE 00 SERIES FIELD NAMES
-    #AND WOULD PROBABLY BE BEST TAKEN OUT INTO A FUNCTION
-    #AND THE CALLBACK FUNCTION MADE MORE GENERALISED FOR ALL DATASETS
-    duration_dset_1 = "Duration "+ str(slider_1)
-    duration_dset_2 = "Duration "+ str(slider_2)    
-    duration_dset_3 = "Duration "+ str(slider_3)
-    print("         duration dset 1 is:"+str(duration_dset_1)+";"+"duration dset 2 is:"+str(duration_dset_2)+";"+"duration dset 3 is:"+str(duration_dset_3))
-
-    
-
+    descriptions=[descrip1,descrip2,descrip3]
+    year_sliders=[year_slider_1,year_slider_2,year_slider_3]
+    durations=duration_headings_from_select_sliders(slider_1,slider_2,slider_3)
     slider_blocks=display_select_slider(descrip1,descrip2,descrip3)
-
-
-       
-
-# ADD IN OUR TRACES PROVIDING DROPDOWN TABLE DESCTIPTION CHOSEN
-    if get_table_name_from_description(descrip1) is not None:
-        x=get_x_axis_values_from_chosen_dataset(df_dset_1,descrip1,year_slider_1)
-        y=get_y_axis_values_from_chosen_dataset(df_dset_1,descrip1,duration_dset_1,year_slider_1)
-        if chart_type == 'line':
-            add_trace_to_figure_data(data,x,y,descrip1,1,"line")
-        elif chart_type == 'bar':
-            add_trace_to_figure_data(data,x,y,descrip1,1,"bar")
-    if get_table_name_from_description(descrip2) is not None:
-        x=get_x_axis_values_from_chosen_dataset(df_dset_2,descrip2,year_slider_2)
-        y=get_y_axis_values_from_chosen_dataset(df_dset_2,descrip2,duration_dset_2,year_slider_2)        
-        if chart_type == 'line':
-            add_trace_to_figure_data(data,x,y,descrip1,2,"line")
-        elif chart_type == 'bar':
-            add_trace_to_figure_data(data,x,y,descrip1,2,"bar")
-    if get_table_name_from_description(descrip3) is not None:
-        x=get_x_axis_values_from_chosen_dataset(df_dset_3,descrip3,year_slider_3)
-        y=get_y_axis_values_from_chosen_dataset(df_dset_3,descrip3,duration_dset_3,year_slider_3)          
-        if chart_type == 'line':
-            add_trace_to_figure_data(data,x,y,descrip1,3,"line")
-        elif chart_type == 'bar':
-            add_trace_to_figure_data(data,x,y,descrip1,3,"bar")
+    for i in range(3):
+        if get_table_name_from_description(descriptions[i]) is not None:
+            x = get_x_axis_values_from_chosen_dataset(df_dset[i], descriptions[i], year_sliders[i])
+            y = get_y_axis_values_from_chosen_dataset(df_dset[i], descriptions[i], durations[i], year_sliders[i])
+            if chart_type == 'line':
+                add_trace_to_figure_data(data, x, y, descriptions[i], i+1, "line")
+            elif chart_type == 'bar':
+                add_trace_to_figure_data(data, x, y, descriptions[i], i+1, "bar")
     #ensuring that no graph lines are shown on initial load
     if descrip1 == None and descrip2 == None and descrip3 == None :
         data=[]
@@ -639,7 +626,6 @@ def update_figure1(chart_type,slider_1,slider_2,slider_3,graph_slider_value,grap
     set_figure_titles(fig,"Ageₓ","qₓ")
     set_figure_grid_white(fig)
     set_figure_axis_range(fig,graph_slider_value,graph_slider_value2)
-
     return (fig,*slider_blocks)
 
 
