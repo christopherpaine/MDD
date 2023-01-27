@@ -268,7 +268,7 @@ def set_figure_titles(fig,x,y):
     fig.update_layout(yaxis=dict(title=y))
     return fig
 
-def add_trace_line_to_figure_data(data,x_values,y_values,dropdown_description,colour):
+def add_trace_line_to_figure_data(data,x_values,y_values,dropdown_description,colour,chart_type):
         if colour == 1:
             colr = "#abe2fb"
         elif colour == 2:
@@ -278,6 +278,11 @@ def add_trace_line_to_figure_data(data,x_values,y_values,dropdown_description,co
         else:
             colr = "#000000" # default value
         trace = go.Scatter(x=x_values, y=y_values,name=str(get_table_name_from_description(dropdown_description)),marker=dict(color=colr))
+
+        if chart_type == "line":
+                    trace = go.Scatter(x=x_values, y=y_values,name=str(get_table_name_from_description(dropdown_description)),marker=dict(color=colr))
+        elif chart_type == "bar":
+                    trace = go.bar(x=x_values, y=y_values,name=str(get_table_name_from_description(dropdown_description)),marker=dict(color=colr))
         data.append(trace)   
         #no need for return as passing in a mutable object   
 
@@ -603,11 +608,9 @@ def update_figure1(chart_type,slider_1,slider_2,slider_3,graph_slider_value,grap
 # IN ORDER SET X AND Y AXIS
     if get_table_name_from_description(descrip1) is not None:
         if chart_type == 'line':
-            add_trace_line_to_figure_data(data,get_x_axis_values_from_chosen_dataset(df_dset_1,descrip1,year_slider_1),get_y_axis_values_from_chosen_dataset(df_dset_1,descrip1,duration_dset_1,year_slider_1),descrip1,1)
+            add_trace_line_to_figure_data(data,get_x_axis_values_from_chosen_dataset(df_dset_1,descrip1,year_slider_1),get_y_axis_values_from_chosen_dataset(df_dset_1,descrip1,duration_dset_1,year_slider_1),descrip1,1,"line")
 
 
-
-            #trace_1 = go.Scatter(x=get_x_axis_values_from_chosen_dataset(df_dset_1,descrip1,year_slider_1), y=get_y_axis_values_from_chosen_dataset(df_dset_1,descrip1,duration_dset_1,year_slider_1), name=str(get_table_name_from_description(descrip1)), marker=dict(color="#abe2fb"))
         elif chart_type == 'bar':
             trace_1 = go.Bar(x=get_x_axis_values_from_chosen_dataset(df_dset_1,descrip1,year_slider_1), y=get_y_axis_values_from_chosen_dataset(df_dset_1,descrip1,duration_dset_1,year_slider_1), name=str(get_table_name_from_description(descrip1)), marker=dict(color="#abe2fb"))
             data.append(trace_1)
@@ -733,18 +736,11 @@ def update_tab_content(tab,slider_1_max,slider_1,descrip1,year_slider_1):
         print ("df.empty gives")
         print(df.empty)
         if df.empty == False:
-            add_trace_line_to_figure_data(data2,df['Age x'],df['Result'],descrip1,1)
+            add_trace_line_to_figure_data(data2,df['Age x'],df['Result'],descrip1,1,"line")
 
-
-
-            #trace_1 = go.Scatter(x=df['Age x'], y=df['Result'], name=str(get_table_name_from_description(descrip1)), marker=dict(color="#abe2fb"))
-            #data2.append(trace_1)
     
-    #print("value of data2 is")
-    #print(data2)
-    #preventing error if data2 is empty list
+
     if data2 == []:
-        #print("attempting to debug fig2 referenced before assignment error")
         trace_1 = go.Scatter(x=[0], y=[0])
         data2.append(trace_1)
 
