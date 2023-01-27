@@ -286,7 +286,28 @@ def add_trace_to_figure_data(data,x_values,y_values,dropdown_description,colour,
         data.append(trace)   
         #no need for return as passing in a mutable object   
 
+def display_select_slider(descrip1,descrip2,descrip3):
 
+    #determine max select years for each table description choice
+    max_select_dset_1 = get_select_years_from_description(descrip1)
+    max_select_dset_2 = get_select_years_from_description(descrip2)
+    max_select_dset_3 = get_select_years_from_description(descrip3)
+
+    #and consequently determine which slider blocks to display
+    if max_select_dset_1 == [0]:
+        slider_block_1 = {'display': 'none'}
+    else:
+        slider_block_1 = {'display': 'block'}
+    if max_select_dset_2 == [0]:
+        slider_block_2 = {'display': 'none'}
+    else:
+        slider_block_2 = {'display': 'block'}
+    if max_select_dset_3 == [0]:
+        slider_block_3 = {'display': 'none'}
+    else:
+        slider_block_3 = {'display': 'block'}
+
+    return  [max_select_dset_1,max_select_dset_2 ,max_select_dset_3 ,slider_block_1,slider_block_2,slider_block_3]
 
 
 
@@ -581,26 +602,11 @@ def update_figure1(chart_type,slider_1,slider_2,slider_3,graph_slider_value,grap
     duration_dset_3 = "Duration "+ str(slider_3)
     print("         duration dset 1 is:"+str(duration_dset_1)+";"+"duration dset 2 is:"+str(duration_dset_2)+";"+"duration dset 3 is:"+str(duration_dset_3))
 
-    #determine max select years for each table description choice
-    max_select_dset_1 = get_select_years_from_description(descrip1)
-    max_select_dset_2 = get_select_years_from_description(descrip2)
-    max_select_dset_3 = get_select_years_from_description(descrip3)
-    #and consequently determine which slider blocks to display
-    if max_select_dset_1 == [0]:
-        slider_block_1 = {'display': 'none'}
-    else:
-        slider_block_1 = {'display': 'block'}
-    if max_select_dset_2 == [0]:
-        slider_block_2 = {'display': 'none'}
-    else:
-        slider_block_2 = {'display': 'block'}
-    if max_select_dset_3 == [0]:
-        slider_block_3 = {'display': 'none'}
-    else:
-        slider_block_3 = {'display': 'block'}
+    
+
+    slider_blocks=display_select_slider(descrip1,descrip2,descrip3)
 
 
-    #print("     graph slider value is:"+str(graph_slider_value))
        
 
 # ADD IN OUR TRACES PROVIDING DROPDOWN TABLE DESCTIPTION CHOSEN
@@ -625,27 +631,16 @@ def update_figure1(chart_type,slider_1,slider_2,slider_3,graph_slider_value,grap
             add_trace_to_figure_data(data,x,y,descrip1,3,"line")
         elif chart_type == 'bar':
             add_trace_to_figure_data(data,x,y,descrip1,3,"bar")
-
-
     #ensuring that no graph lines are shown on initial load
     if descrip1 == None and descrip2 == None and descrip3 == None :
         data=[]
     #create figure
-    fig = go.Figure(data=data)
- 
+    fig = go.Figure(data=data) 
     set_figure_titles(fig,"Ageₓ","qₓ")
     set_figure_grid_white(fig)
     set_figure_axis_range(fig,graph_slider_value,graph_slider_value2)
 
-    #return fig,max_select_dset_1,max_select_dset_2,max_select_dset_3,slider_block_1,slider_block_2,slider_block_3
-
-    return (fig,
-            max_select_dset_1,
-            max_select_dset_2,
-            max_select_dset_3,
-            slider_block_1,
-            slider_block_2,
-            slider_block_3)
+    return (fig,*slider_blocks)
 
 
 #callback function for when the life office functions tab is selected
@@ -668,7 +663,7 @@ def update_figure1(chart_type,slider_1,slider_2,slider_3,graph_slider_value,grap
 ])
 
 
-    
+   
 def update_tab_content(tab,slider_1_max,slider_1,descrip1,year_slider_1):
     print(tab)
     if tab == "tab-2":
