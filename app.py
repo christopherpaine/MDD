@@ -257,6 +257,11 @@ def set_figure_grid_white(fig):
     fig.update_layout(paper_bgcolor='white',plot_bgcolor='white', )
     return fig
 
+def set_figure_axis_range(fig,x,y):
+    fig.update_layout(yaxis=dict(y))
+    fig.update_layout(xaxis=dict(x))
+
+    return fig
 
 
 
@@ -631,11 +636,7 @@ def update_figure1(chart_type,slider_1,slider_2,slider_3,graph_slider_value,grap
     fig.update_layout(yaxis=dict(title="qₓ"))
     
     set_figure_grid_white(fig)
-    
-    fig.update_layout(xaxis=dict(range=graph_slider_value))
-    fig.update_layout(yaxis=dict(range=graph_slider_value2))
-
-
+    set_figure_axis_range(fig,graph_slider_value,graph_slider_value2)
 
     #return fig,max_select_dset_1,max_select_dset_2,max_select_dset_3,slider_block_1,slider_block_2,slider_block_3
 
@@ -739,8 +740,7 @@ def update_tab_content(tab,slider_1_max,slider_1,descrip1,year_slider_1):
     # Set the yaxis title to "qₓ"
     fig2.update_layout(yaxis=dict(title="aₓ"))
 
-    fig2.update_layout(yaxis=dict(range=[0,30]))
-    fig2.update_layout(xaxis=dict(range=[0,120]))
+    set_figure_axis_range(fig2,[0,120],[0,30])
 
     set_figure_grid_white(fig2)
 
