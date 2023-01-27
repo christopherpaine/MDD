@@ -263,7 +263,10 @@ def set_figure_axis_range(fig,x,y):
 
     return fig
 
-
+def set_figure_titles(fig,x,y):
+    fig.update_layout(xaxis=dict(title=x))
+    fig.update_layout(yaxis=dict(title=y))
+    return fig
 
 
 
@@ -628,13 +631,8 @@ def update_figure1(chart_type,slider_1,slider_2,slider_3,graph_slider_value,grap
         y_max_list.append(y_max)
 
 
-
-
-    # Set the xaxis title to "Age"
-    fig.update_layout(xaxis=dict(title="Ageₓ"))
-    # Set the yaxis title to "qₓ"
-    fig.update_layout(yaxis=dict(title="qₓ"))
     
+    set_figure_titles(fig,"Ageₓ","qₓ")
     set_figure_grid_white(fig)
     set_figure_axis_range(fig,graph_slider_value,graph_slider_value2)
 
@@ -735,13 +733,8 @@ def update_tab_content(tab,slider_1_max,slider_1,descrip1,year_slider_1):
 
     fig2 = go.Figure(data=data2)
 
-    # Set the xaxis title to "Age"
-    fig2.update_layout(xaxis=dict(title="Ageₓ"))
-    # Set the yaxis title to "qₓ"
-    fig2.update_layout(yaxis=dict(title="aₓ"))
-
+    set_figure_titles(fig2,"Ageₓ","aₓ")
     set_figure_axis_range(fig2,[0,120],[0,30])
-
     set_figure_grid_white(fig2)
 
     fig2.update_layout(title='PV of £1 annuity due')
