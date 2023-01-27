@@ -585,11 +585,23 @@ def update_table3_options_from_dsource(dsource,descrip):
             return [{'label': 'ONS tables to be added Q1 2023'},year_block_3]
     return {'label': 'Choose Datasource'},{'display': 'none'}
 
+#select sliders callback
+#ideally we would separate out the outputs in the callback function so that we have one callback function of slider max values, one for figure, one for hiding slider blocks
+#callback functions can run in parrallel and it is a good idea to keep them small and taylored to one output (or group of outputs only)
+@app.callback(
+    [Output(component_id='select_slider_1', component_property='max'),Output(component_id='select_slider_2', component_property='max'),Output(component_id='select_slider_3', component_property='max'),Output(component_id='slider_block_1', component_property='style'),Output(component_id='slider_block_2', component_property='style'),Output(component_id='slider_block_3', component_property='style')],
+    [dash.dependencies.Input('description_dropdown_1', 'value'),
+     dash.dependencies.Input('description_dropdown_2', 'value'),
+     dash.dependencies.Input('description_dropdown_3', 'value')])
+def update_select_sliders(descrip1,descrip2,descrip3):   
+    select_rates_slider_blocks=display_select_slider(descrip1,descrip2,descrip3)
+    return (select_rates_slider_blocks[0],select_rates_slider_blocks[1],select_rates_slider_blocks[2],select_rates_slider_blocks[3],select_rates_slider_blocks[4],select_rates_slider_blocks[5])
+
 
 #ideally we would separate out the outputs in the callback function so that we have one callback function of slider max values, one for figure, one for hiding slider blocks
 #callback functions can run in parrallel and it is a good idea to keep them small and taylored to one output (or group of outputs only)
 @app.callback(
-    [Output(component_id='graph', component_property='figure'),Output(component_id='select_slider_1', component_property='max'),Output(component_id='select_slider_2', component_property='max'),Output(component_id='select_slider_3', component_property='max'),Output(component_id='slider_block_1', component_property='style'),Output(component_id='slider_block_2', component_property='style'),Output(component_id='slider_block_3', component_property='style')],
+    [Output(component_id='graph', component_property='figure')],
     [Input(component_id='chart_type_dropdown', component_property='value'),
      Input(component_id='select_slider_1', component_property='value'),
      Input(component_id='select_slider_2', component_property='value'),
@@ -608,8 +620,8 @@ def update_figure1(chart_type,slider_1,slider_2,slider_3,graph_slider_value,grap
     data = []
     descriptions=[descrip1,descrip2,descrip3]
     year_sliders=[year_slider_1,year_slider_2,year_slider_3]
-    durations=duration_headings_from_select_sliders(slider_1,slider_2,slider_3)
-    slider_blocks=display_select_slider(descrip1,descrip2,descrip3)
+    #durations=duration_headings_from_select_sliders(slider_1,slider_2,slider_3)
+    durations=duration_headings_from_select_sliders(0,0,0)
     for i in range(3):
         if get_table_name_from_description(descriptions[i]) is not None:
             x = get_x_axis_values_from_chosen_dataset(df_dset[i], descriptions[i], year_sliders[i])
@@ -626,7 +638,8 @@ def update_figure1(chart_type,slider_1,slider_2,slider_3,graph_slider_value,grap
     set_figure_titles(fig,"Ageₓ","qₓ")
     set_figure_grid_white(fig)
     set_figure_axis_range(fig,graph_slider_value,graph_slider_value2)
-    return (fig,*slider_blocks)
+    print(fig)
+    return fig
 
 
 #callback function for when the life office functions tab is selected
