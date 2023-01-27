@@ -646,16 +646,13 @@ def update_figure1(chart_type,slider_1,slider_2,slider_3,graph_slider_value,grap
     dash.dependencies.Input('year_slider_1', 'value'),
     # dash.dependencies.Input('year_slider_2', 'value'),
     # dash.dependencies.Input('year_slider_3', 'value')]
-])
-
-
-   
+]) 
 def update_tab_content(tab,slider_1_max,slider_1,descrip1,year_slider_1):
     print(tab)
     if tab == "tab-2":
         print("second tab selected")
 
-    #we need to obtain dataset 1
+    #we need to obtain dataset 1  BTW:  WE WILL WANT TO MOVE TO THE NEW FUNCTION AND DELETE THIS ONE
     df_dset_1 = get_dataframe_from_description(descrip1)
 
     #USE SLIDER VALUES TO DETERMINE LOOKUP FIELD VALUE
