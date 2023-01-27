@@ -603,50 +603,36 @@ def update_figure1(chart_type,slider_1,slider_2,slider_3,graph_slider_value,grap
     #print("     graph slider value is:"+str(graph_slider_value))
        
 
-# we have a dataframe df_dset_1 2 and 3
-# OUR TRACE VARIABLES HOLD A BIT MORE INFO ON TYPE OF GRAPH AND CHOOSE APPROPRIATE COLUMS FROM OUR DATAFRAMES
-# IN ORDER SET X AND Y AXIS
+# ADD IN OUR TRACES PROVIDING DROPDOWN TABLE DESCTIPTION CHOSEN
     if get_table_name_from_description(descrip1) is not None:
+        x=get_x_axis_values_from_chosen_dataset(df_dset_1,descrip1,year_slider_1)
+        y=get_y_axis_values_from_chosen_dataset(df_dset_1,descrip1,duration_dset_1,year_slider_1)
         if chart_type == 'line':
-            add_trace_to_figure_data(data,get_x_axis_values_from_chosen_dataset(df_dset_1,descrip1,year_slider_1),get_y_axis_values_from_chosen_dataset(df_dset_1,descrip1,duration_dset_1,year_slider_1),descrip1,1,"line")
+            add_trace_to_figure_data(data,x,y,descrip1,1,"line")
         elif chart_type == 'bar':
-            add_trace_to_figure_data(data,get_x_axis_values_from_chosen_dataset(df_dset_1,descrip1,year_slider_1),get_y_axis_values_from_chosen_dataset(df_dset_1,descrip1,duration_dset_1,year_slider_1),descrip1,1,"bar")
-    #removing bar if nothing selected
-
-
-
+            add_trace_to_figure_data(data,x,y,descrip1,1,"bar")
     if get_table_name_from_description(descrip2) is not None:
+        x=get_x_axis_values_from_chosen_dataset(df_dset_2,descrip2,year_slider_2)
+        y=get_y_axis_values_from_chosen_dataset(df_dset_2,descrip2,duration_dset_2,year_slider_2)        
         if chart_type == 'line':
-            trace_2 = go.Scatter(x=get_x_axis_values_from_chosen_dataset(df_dset_2,descrip2,year_slider_2), y=get_y_axis_values_from_chosen_dataset(df_dset_2,descrip2,duration_dset_2,year_slider_2), name=str(get_table_name_from_description(descrip2)),marker=dict(color="#002c53"))
+            add_trace_to_figure_data(data,x,y,descrip1,2,"line")
         elif chart_type == 'bar':
-            trace_2 = go.Bar(x=get_x_axis_values_from_chosen_dataset(df_dset_2,descrip2,year_slider_2), y=get_y_axis_values_from_chosen_dataset(df_dset_2,descrip2,duration_dset_2,year_slider_2), name=str(get_table_name_from_description(descrip2)),marker=dict(color="#002c53"))
-        data.append(trace_2)
-
+            add_trace_to_figure_data(data,x,y,descrip1,2,"bar")
     if get_table_name_from_description(descrip3) is not None:
+        x=get_x_axis_values_from_chosen_dataset(df_dset_3,descrip3,year_slider_3)
+        y=get_y_axis_values_from_chosen_dataset(df_dset_3,descrip3,duration_dset_3,year_slider_3)          
         if chart_type == 'line':
-            trace_3 = go.Scatter(x=get_x_axis_values_from_chosen_dataset(df_dset_3,descrip3,year_slider_3), y=get_y_axis_values_from_chosen_dataset(df_dset_3,descrip3,duration_dset_3,year_slider_3),name=str(get_table_name_from_description(descrip3)),marker=dict(color=" #c3941e"))
+            add_trace_to_figure_data(data,x,y,descrip1,3,"line")
         elif chart_type == 'bar':
-            trace_3 = go.Bar(x=get_x_axis_values_from_chosen_dataset(df_dset_3,descrip3,year_slider_3), y=get_y_axis_values_from_chosen_dataset(df_dset_3,descrip3,duration_dset_3,year_slider_3), name=str(get_table_name_from_description(descrip3)),marker=dict(color=" #c3941e"))
-        data.append(trace_3)
+            add_trace_to_figure_data(data,x,y,descrip1,3,"bar")
+
 
     #ensuring that no graph lines are shown on initial load
     if descrip1 == None and descrip2 == None and descrip3 == None :
-        print("called")
         data=[]
-    
-
+    #create figure
     fig = go.Figure(data=data)
-
-    y_max_list =[]
-    # iterate through the traces
-    for trace in fig.data:
-        # find the maximum y value for the current trace
-        y_max = max(trace.y)
-        # append the maximum y value to the list
-        y_max_list.append(y_max)
-
-
-    
+ 
     set_figure_titles(fig,"Ageₓ","qₓ")
     set_figure_grid_white(fig)
     set_figure_axis_range(fig,graph_slider_value,graph_slider_value2)
