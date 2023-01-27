@@ -1,0 +1,12 @@
+def get_dataframe_from_description(*table_descriptions):
+    dataframes = []
+    for table_description in table_descriptions:
+        if get_datasource_from_description(table_description) == ['IfoA 00 Series']:
+            dataframes.append(pd.read_excel(get_datasource_location_from_description(table_description)[0], sheet_name=get_table_name_from_description(table_description)[0]))
+        elif get_datasource_from_description(table_description) == ['Human Mortality Database']:
+            dataframes.append(pd.read_csv(get_datasource_location_from_description(table_description)[0],header=1,delim_whitespace=True))
+        elif get_datasource_from_description(table_description) == ['IfoA 92 Series']:
+            dataframes.append(pd.read_excel(get_datasource_location_from_description(table_description)[0], sheet_name=get_table_name_from_description(table_description)[0]))
+        else:
+            print("get_dataframe_from_description function aint returning proper when the following table description passed thru: "+ str(table_description))
+    return dataframes
