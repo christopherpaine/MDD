@@ -2,9 +2,6 @@
 #                      SOME NOTES ON DEVELOPMENT IDEAS / REQUIREMENTS
 #---------------------------------------------------------------------------------------------
 #
-#  add in loading message for life office functions graph
-#   especially as it will slow down considerably when two addition
-#  datasets are added
 #
 #
 # AUTOMATICALLY SET TO MAXIMUM VALUE WHEN SUCH A DATASET IS CHOSEN AS ULTIMATE RATES ARE LIKELY TO BE RATES OF MOST INTEREST
@@ -128,7 +125,7 @@ HMD_table_1 = pd.read_csv('Mortality_tables/HMD_UK_males_1x1.txt')
 HMD_table_2 = pd.read_csv('Mortality_tables/HMD_UK_females_1x1.txt')
 HMD_table_3 = pd.read_csv('Mortality_tables/HMD_UK_both_sexes_1x1.txt')
 HMD_tables = [HMD_table_1,HMD_table_2,HMD_table_3]
-print(HMD_table_3.head)
+
 
 
 #------------------------------------------------------------------------------------
@@ -649,34 +646,40 @@ def update_figure1(chart_type,slider_1,slider_2,slider_3,graph_slider_value,grap
     Output(component_id='graph2', component_property='figure'), 
     [Input("tabs", "value"),
     Input(component_id='select_slider_1', component_property='max'),
-    #Input(component_id='chart_type_dropdown', component_property='value'),
     Input(component_id='select_slider_1', component_property='value'),
+    Input(component_id='select_slider_2', component_property='max'),
+    Input(component_id='select_slider_2', component_property='value'),
+    Input(component_id='select_slider_3', component_property='max'),
+    Input(component_id='select_slider_3', component_property='value'),
     # Input(component_id='select_slider_2', component_property='value'),
     # Input(component_id='select_slider_3', component_property='value'),
     # Input(component_id='graph_slider', component_property='value'),
     # Input(component_id='graph_slider2', component_property='value'),
     dash.dependencies.Input('description_dropdown_1', 'value'),
-    # dash.dependencies.Input('description_dropdown_2', 'value'),
-    # dash.dependencies.Input('description_dropdown_3', 'value'),
     dash.dependencies.Input('year_slider_1', 'value'),
+    dash.dependencies.Input('description_dropdown_2', 'value'),
+    dash.dependencies.Input('year_slider_2', 'value'),
+    dash.dependencies.Input('description_dropdown_3', 'value'),
+    dash.dependencies.Input('year_slider_3', 'value'),
     # dash.dependencies.Input('year_slider_2', 'value'),
     # dash.dependencies.Input('year_slider_3', 'value')]
 ]) 
-def update_tab_content(tab,slider_1_max,slider_1,descrip1,year_slider_1):
+def update_tab_content(tab,slider_1_max,slider_1,slider_2_max,slider_2,slider_3_max,slider_3,descrip1,year_slider_1,descrip2,year_slider_2,descrip3,year_slider_3):
     print(tab)
     if tab == "tab-2":
         print("second tab selected")
 
     #we need to obtain dataset 1  BTW:  WE WILL WANT TO MOVE TO THE NEW FUNCTION AND DELETE THIS ONE
     df_dset_1 = get_dataframe_from_description(descrip1)
-
+    df_dset_2 = get_dataframe_from_description(descrip2)
+    df_dset_3 = get_dataframe_from_description(descrip3)
     #USE SLIDER VALUES TO DETERMINE LOOKUP FIELD VALUE
     #THIS IS ALSO VERY SPECIFIC TO THE 00 SERIES FIELD NAMES
     #AND WOULD PROBABLY BE BEST TAKEN OUT INTO A FUNCTION
     #AND THE CALLBACK FUNCTION MADE MORE GENERALISED FOR ALL DATASETS
     duration_dset_1 = "Duration "+ str(slider_1)
-
-
+    duration_dset_2 = "Duration "+ str(slider_2)
+    duration_dset_3 = "Duration "+ str(slider_3)
 
 
  #we don't want to calculate any annuity functions unless maximum select period is chosen. we therefore need a function to check maximum select period
@@ -686,34 +689,48 @@ def update_tab_content(tab,slider_1_max,slider_1,descrip1,year_slider_1):
     df=pd.DataFrame()
     if slider_1_max:
         if slider_1 == slider_1_max[0]:
-            
-            print("we have reached the maximum")
-            print (df_dset_1.head)
             #newdf to feed into function
             s1 = get_x_axis_values_from_chosen_dataset(df_dset_1,descrip1,year_slider_1)
-            print (s1.head)
             s2 = get_y_axis_values_from_chosen_dataset(df_dset_1,descrip1,duration_dset_1,year_slider_1)
-            print (s2.head)
             df = pd.concat([s1, s2], axis=1)
-            print("column titles")
             df = df.rename(columns={df.columns[1]: "Rates"})
-            print(df.columns)
-            print("the df we are feeding in is:")
-            print(df)
             df = annuity_series(df,0.04)
-            print (df)
+
+    df2=pd.DataFrame()
+    if slider_2_max:
+        if slider_2 == slider_2_max[0]:
+            #newdf to feed into function
+            s1 = get_x_axis_values_from_chosen_dataset(df_dset_2,descrip2,year_slider_2)
+            s2 = get_y_axis_values_from_chosen_dataset(df_dset_2,descrip2,duration_dset_2,year_slider_2)
+            df2 = pd.concat([s1, s2], axis=1)
+            df2 = df2.rename(columns={df2.columns[1]: "Rates"})
+            df2 = annuity_series(df2,0.04)
+
+    df3=pd.DataFrame()
+    if slider_3_max:
+        if slider_3 == slider_3_max[0]:
+            #newdf to feed into function
+            s1 = get_x_axis_values_from_chosen_dataset(df_dset_3,descrip3,year_slider_3)
+            s2 = get_y_axis_values_from_chosen_dataset(df_dset_3,descrip3,duration_dset_3,year_slider_3)
+            df3 = pd.concat([s1, s2], axis=1)
+            df3 = df3.rename(columns={df3.columns[1]: "Rates"})
+            df3 = annuity_series(df3,0.04)
 
 
     #we now want to set the values of our graph2 figure
     data2 = []
-    print("get_table_name_from_description(descrip1)... is it none or not")
-    print(get_table_name_from_description(descrip1))
+
     if get_table_name_from_description(descrip1) is not None:
-        print ("df.empty gives")
-        print(df.empty)
         if df.empty == False:
             add_trace_to_figure_data(data2,df['Age x'],df['Result'],descrip1,1,"line")
 
+    if get_table_name_from_description(descrip2) is not None:
+        if df2.empty == False:
+            add_trace_to_figure_data(data2,df2['Age x'],df2['Result'],descrip2,2,"line")
+
+    if get_table_name_from_description(descrip3) is not None:
+        if df3.empty == False:
+            add_trace_to_figure_data(data2,df3['Age x'],df3['Result'],descrip3,3,"line")
     
 
     if data2 == []:
