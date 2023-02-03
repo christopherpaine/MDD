@@ -218,6 +218,7 @@ def get_dataframe_from_description(table_description):
         print("get_dataframe_from_description function aint returning proper when the following table description passed thru: "+ str(table_description))
         return [0]
 
+#take in one or more arguments; return list of dataframes
 def get_dataframe_from_description2(*table_descriptions):
     dataframes = []
     for table_description in table_descriptions:
@@ -229,6 +230,7 @@ def get_dataframe_from_description2(*table_descriptions):
             dataframes.append(pd.read_excel(get_datasource_location_from_description(table_description)[0], sheet_name=get_table_name_from_description(table_description)[0]))
         else:
             print("get_dataframe_from_description function aint returning proper when the following table description passed thru: "+ str(table_description))
+            dataframes.append(pd.DataFrame())
     return dataframes
 
 
