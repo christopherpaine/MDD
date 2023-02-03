@@ -518,7 +518,7 @@ Disclaimer_card =  dbc.Card(
 #------------------------------------------------------------------------------------
 #                              CALLBACK FUNCTIONS
 #------------------------------------------------------------------------------------
-# we have 4 callback functions.  3 of them relate to changes that occur when the datasource is updated and also the table description are updated.  the inputs are these 2 aforementioned items.  
+# we have 5 callback functions.  3 of them relate to changes that occur when the datasource is updated and also the table description are updated.  the inputs are these 2 aforementioned items.  
 # If HMD datasource is selected we display the year_block year sliders.
 # other outputs options for the description and table dropdowns... which naturally result from the choice of datasource
 
@@ -578,7 +578,7 @@ def update_table3_options_from_dsource(dsource,descrip):
             return get_table_description_list_from_datasource(dsource_dropdown_options[dsource-1]['label']),{'display': 'none'}
         elif dsource_dropdown_options[dsource-1]['label'] == 'Human Mortality Database':
             return get_table_description_list_from_datasource(dsource_dropdown_options[dsource-1]['label']),{'display': 'block'}
-        elif dsource_dropdown_options[dsource-1]['label'] == 'IfoA 00 Series':
+        elif dsource_dropdown_options[dsource-1]['label'] == 'IfoA 92 Series':
             return get_table_description_list_from_datasource(dsource_dropdown_options[dsource-1]['label']),{'display': 'none'}
         else:
             year_block_3 = {'display': 'none'}
@@ -620,8 +620,8 @@ def update_figure1(chart_type,slider_1,slider_2,slider_3,graph_slider_value,grap
     data = []
     descriptions=[descrip1,descrip2,descrip3]
     year_sliders=[year_slider_1,year_slider_2,year_slider_3]
-    #durations=duration_headings_from_select_sliders(slider_1,slider_2,slider_3)
-    durations=duration_headings_from_select_sliders(0,0,0)
+    durations=duration_headings_from_select_sliders(slider_1,slider_2,slider_3)
+    #durations=duration_headings_from_select_sliders(0,0,0)
     for i in range(3):
         if get_table_name_from_description(descriptions[i]) is not None:
             x = get_x_axis_values_from_chosen_dataset(df_dset[i], descriptions[i], year_sliders[i])
@@ -638,8 +638,8 @@ def update_figure1(chart_type,slider_1,slider_2,slider_3,graph_slider_value,grap
     set_figure_titles(fig,"Ageₓ","qₓ")
     set_figure_grid_white(fig)
     set_figure_axis_range(fig,graph_slider_value,graph_slider_value2)
-    print(fig)
-    return fig
+    #print(fig)
+    return [fig]
 
 
 #callback function for when the life office functions tab is selected
