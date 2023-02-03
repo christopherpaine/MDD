@@ -765,7 +765,12 @@ column2 = dbc.Col(
                                                      children =
                                                     [
                                                                 html.Div(style={"height": offset_value}), #type_of_graph_card,
-                                                                html.Div(style={"height": offset_value}),output_card2,html.Div(style={"height": offset_value}),html.Div(style={"height": offset_value}),Disclaimer_card
+                                                                dcc.Loading(
+                    id="ls-loading-2",
+                    children=[html.Div(style={"height": offset_value}),output_card2],
+                    type="circle",
+                )
+                                                                ,html.Div(style={"height": offset_value}),html.Div(style={"height": offset_value}),Disclaimer_card
                                                     ]
                                 
                                                                             ),
