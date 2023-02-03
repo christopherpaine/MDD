@@ -495,7 +495,26 @@ output_card2 = dbc.Card(
                 dcc.Graph(
                     #figure=fig,
                     id='graph2'),
-                dbc.Label("Truncate X-Axis"),
+                    dbc.Label("Interest Rate"),
+
+
+                        dcc.Slider(
+                            id='int_rate_slider',
+                            min=0.00,
+                            max=0.20,
+                            value=0.04,
+                            step=0.01,
+                            included=False,
+                            tooltip={
+                                "placement": "bottom",
+                                "always_visible": True
+                            },
+                            marks={i: f"{i:.2f}" for i in np.arange(0.00, 0.20 + 0.01, 0.01)}
+                        )
+
+
+
+
                 #dcc.RangeSlider(0,120,10,value=[0,120],
                 #    id='graph_slider',allowCross=False,pushable=20),
                 #dbc.Label("Truncate Y-Axis"),
@@ -661,10 +680,10 @@ def update_figure1(chart_type,slider_1,slider_2,slider_3,graph_slider_value,grap
     dash.dependencies.Input('year_slider_2', 'value'),
     dash.dependencies.Input('description_dropdown_3', 'value'),
     dash.dependencies.Input('year_slider_3', 'value'),
-    # dash.dependencies.Input('year_slider_2', 'value'),
+    dash.dependencies.Input('int_rate_slider', 'value'),
     # dash.dependencies.Input('year_slider_3', 'value')]
 ]) 
-def update_tab_content(tab,slider_1_max,slider_1,slider_2_max,slider_2,slider_3_max,slider_3,descrip1,year_slider_1,descrip2,year_slider_2,descrip3,year_slider_3):
+def update_tab_content(tab,slider_1_max,slider_1,slider_2_max,slider_2,slider_3_max,slider_3,descrip1,year_slider_1,descrip2,year_slider_2,descrip3,year_slider_3,int_rate):
     print(tab)
     if tab == "tab-2":
         print("second tab selected")
@@ -694,7 +713,7 @@ def update_tab_content(tab,slider_1_max,slider_1,slider_2_max,slider_2,slider_3_
             s2 = get_y_axis_values_from_chosen_dataset(df_dset_1,descrip1,duration_dset_1,year_slider_1)
             df = pd.concat([s1, s2], axis=1)
             df = df.rename(columns={df.columns[1]: "Rates"})
-            df = annuity_series(df,0.04)
+            df = annuity_series(df,int_rate)
 
     df2=pd.DataFrame()
     if slider_2_max:
@@ -704,7 +723,7 @@ def update_tab_content(tab,slider_1_max,slider_1,slider_2_max,slider_2,slider_3_
             s2 = get_y_axis_values_from_chosen_dataset(df_dset_2,descrip2,duration_dset_2,year_slider_2)
             df2 = pd.concat([s1, s2], axis=1)
             df2 = df2.rename(columns={df2.columns[1]: "Rates"})
-            df2 = annuity_series(df2,0.04)
+            df2 = annuity_series(df2,int_rate)
 
     df3=pd.DataFrame()
     if slider_3_max:
@@ -714,7 +733,7 @@ def update_tab_content(tab,slider_1_max,slider_1,slider_2_max,slider_2,slider_3_
             s2 = get_y_axis_values_from_chosen_dataset(df_dset_3,descrip3,duration_dset_3,year_slider_3)
             df3 = pd.concat([s1, s2], axis=1)
             df3 = df3.rename(columns={df3.columns[1]: "Rates"})
-            df3 = annuity_series(df3,0.04)
+            df3 = annuity_series(df3,int_rate)
 
 
     #we now want to set the values of our graph2 figure
