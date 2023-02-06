@@ -518,12 +518,20 @@ output_card2 = dbc.Card(
 
 #TEMPORARY CODE FOR A 3D GRAPH
 
+d_data = get_dataframe_from_description2("HMD:  UK Males 1x1")
+#d_data = pd.DataFrame(d_data[1:],columns=d_data[0])
+#d_data = d_data.reshape(1, 10989, 10)
+#d_data = pd.DataFrame(d_data)
 
-z_data = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/api_docs/mt_bruno_elevation.csv')
+z_data = d_data[0]['qx']
+x_data = d_data[0]['Age']
+y_data = d_data[0]['Year']
 
-fig3D = go.Figure(data=[go.Surface(z=z_data.values)])
+fig3D = go.Figure(data=[go.Surface(x=x_data, y=y_data, z=z_data.values)])
 
-fig3D.update_layout(title='Mt Bruno Elevation', autosize=False,
+#fig3D = go.Figure(data=[go.Surface(z=z_data.values)])
+
+fig3D.update_layout(title='HMD:  UK Males 1x1', autosize=False,
                   width=500, height=500,
                   margin=dict(l=65, r=50, b=65, t=90))
 
