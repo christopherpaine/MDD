@@ -511,18 +511,33 @@ output_card2 = dbc.Card(
                             },
                             marks={i: f"{i:.2f}" for i in np.arange(0.00, 0.20 + 0.01, 0.01)}
                         )
-
-
-
-
-                #dcc.RangeSlider(0,120,10,value=[0,120],
-                #    id='graph_slider',allowCross=False,pushable=20),
-                #dbc.Label("Truncate Y-Axis"),
-                #dcc.RangeSlider(0,1,0.1,value=[0,1],
-                #    id='graph_slider2',allowCross=False,pushable=0.1
-                #)
             ]
         )
+
+
+
+#TEMPORARY CODE FOR A 3D GRAPH
+
+
+z_data = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/api_docs/mt_bruno_elevation.csv')
+
+fig3D = go.Figure(data=[go.Surface(z=z_data.values)])
+
+fig3D.update_layout(title='Mt Bruno Elevation', autosize=False,
+                  width=500, height=500,
+                  margin=dict(l=65, r=50, b=65, t=90))
+
+
+output_card3 = dbc.Card(
+            [
+                
+                dcc.Graph(
+                    figure=fig3D,
+                    id='graph3')
+            ]
+        )
+
+
 
 
 Disclaimer_card =  dbc.Card(
@@ -810,7 +825,17 @@ column2 = dbc.Col(
                                                     ]
                                 
                                                                             ),
-                                dcc.Tab(label='3D'),
+                                dcc.Tab(label='3D',
+                                
+                                children =
+                                            [output_card3
+                                                
+
+
+                                            ]
+                                
+                                
+                                ),
                                                             ])
                                         ]), 
 
