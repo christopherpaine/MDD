@@ -533,7 +533,17 @@ fig3D = go.Figure(data=[go.Surface(x=x_data, y=y_data, z=z_data.values)])
 
 fig3D.update_layout(title='HMD:  UK Males 1x1', autosize=False,
                   width=500, height=500,
-                  margin=dict(l=65, r=50, b=65, t=90))
+                  #margin=dict(l=65, r=50, b=65, t=90)
+                  )
+
+fig3D.update_layout(
+    scene = dict(
+        xaxis = dict(nticks=4, range=[0,120],),
+                     yaxis = dict(nticks=4, range=[1920,2020],),
+                     zaxis = dict(nticks=4, range=[0,1],),),)
+
+#fig3D.update_xaxes(range=[0,120])
+#fig3D.update_yaxes(range=[1920,2020])
 
 
 output_card3 = dbc.Card(
