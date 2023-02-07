@@ -521,13 +521,17 @@ d_data = get_dataframe_from_description2("HMD:  UK Males 1x1")
 #d_data[0] is our dataframe because above function inconveniently returns a list
 dfz = d_data[0]
 x, y, z = (np.array(dfz[dfz['Age']!='110+'][col], dtype=float) for col in ['Age', 'Year', 'qx'])
-xi, yi = np.linspace(x.min(), x.max(), 100), np.linspace(y.min(), y.max(), 100)
+xi, yi = np.linspace(x.min(), x.max(), 100), np.linspace(y.max(), y.min(), 100)
 X, Y = np.meshgrid(xi, yi)
 Z = griddata((x,y),z,(X,Y), method='cubic')
 fig3D = go.Figure(go.Surface(x=xi,y=yi,z=Z,colorscale ='Blues'))
 
 fig3D.update_layout(title='HMD:  UK Males 1x1', autosize=False,
-                  width=500, height=500,
+                  width=500, height=500,scene=dict(
+xaxis_title='Age',
+yaxis_title='Year',
+zaxis_title='q_x'
+)
                   #margin=dict(l=65, r=50, b=65, t=90)
                   )
 
@@ -535,15 +539,19 @@ z = np.log(z)
 Z = griddata((x,y),z,(X,Y), method='cubic')
 fig3Dv2 = go.Figure(go.Surface(x=xi,y=yi,z=Z,colorscale ='Blues'))
 
-fig3D.update_layout(title='using log of mortality rate', autosize=False,
-                  width=500, height=500,
+fig3Dv2.update_layout(title='using log of mortality rate', autosize=False,
+                  width=500, height=500,scene=dict(
+xaxis_title='Age',
+yaxis_title='Year',
+zaxis_title='q_x'
+)
                   #margin=dict(l=65, r=50, b=65, t=90)
                   )
 
 
 
 
-
+'''
 output_card3 = dbc.Card(
             [
                 
@@ -556,6 +564,18 @@ output_card3 = dbc.Card(
                     id='graph4')
             ]
         )
+'''
+output_card3 = dbc.Card(
+    [
+        dbc.Row(
+            [
+                dbc.Col(dcc.Graph(figure=fig3D, id='graph3'), width=6),
+                dbc.Col(dcc.Graph(figure=fig3Dv2, id='graph4'), width=6)
+            ]
+        )
+    ]
+)
+
 
 
 
