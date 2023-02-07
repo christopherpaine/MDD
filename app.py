@@ -68,7 +68,7 @@ import plotly.graph_objs as go
 from datetime import datetime
 import numpy as np
 from functions.annuities.Repeatedly_Calling_AF import annuity_series
-
+from scipy.interpolate import griddata
 #----------------------------------------------------------------------------------------
 #                      LOAD IN THE DATA
 #---------------------------------------------------------------------------------------------
@@ -517,33 +517,31 @@ output_card2 = dbc.Card(
 
 
 #TEMPORARY CODE FOR A 3D GRAPH
-
 d_data = get_dataframe_from_description2("HMD:  UK Males 1x1")
-#d_data = pd.DataFrame(d_data[1:],columns=d_data[0])
-#d_data = d_data.reshape(1, 10989, 10)
-#d_data = pd.DataFrame(d_data)
-
-z_data = d_data[0]['qx']
-x_data = d_data[0]['Age']
-y_data = d_data[0]['Year']
-
-fig3D = go.Figure(data=[go.Surface(x=x_data, y=y_data, z=z_data.values)])
-
-#fig3D = go.Figure(data=[go.Surface(z=z_data.values)])
+#d_data[0] is our dataframe because above function inconveniently returns a list
+dfz = d_data[0]
+x, y, z = (np.array(dfz[dfz['Age']!='110+'][col], dtype=float) for col in ['Age', 'Year', 'qx'])
+xi, yi = np.linspace(x.min(), x.max(), 100), np.linspace(y.min(), y.max(), 100)
+X, Y = np.meshgrid(xi, yi)
+Z = griddata((x,y),z,(X,Y), method='cubic')
+fig3D = go.Figure(go.Surface(x=xi,y=yi,z=Z,colorscale ='Blues'))
 
 fig3D.update_layout(title='HMD:  UK Males 1x1', autosize=False,
                   width=500, height=500,
                   #margin=dict(l=65, r=50, b=65, t=90)
                   )
 
-fig3D.update_layout(
-    scene = dict(
-        xaxis = dict(nticks=4, range=[0,120],),
-                     yaxis = dict(nticks=4, range=[1920,2020],),
-                     zaxis = dict(nticks=4, range=[0,1],),),)
+z = np.log(z)
+Z = griddata((x,y),z,(X,Y), method='cubic')
+fig3Dv2 = go.Figure(go.Surface(x=xi,y=yi,z=Z,colorscale ='Blues'))
 
-#fig3D.update_xaxes(range=[0,120])
-#fig3D.update_yaxes(range=[1920,2020])
+fig3D.update_layout(title='using log of mortality rate', autosize=False,
+                  width=500, height=500,
+                  #margin=dict(l=65, r=50, b=65, t=90)
+                  )
+
+
+
 
 
 output_card3 = dbc.Card(
@@ -552,8 +550,18 @@ output_card3 = dbc.Card(
                 dcc.Graph(
                     figure=fig3D,
                     id='graph3')
+                    ,
+                     dcc.Graph(
+                    figure=fig3Dv2,
+                    id='graph4')
             ]
         )
+
+
+
+
+
+
 
 
 
