@@ -594,6 +594,24 @@ Disclaimer_card =  dbc.Card(
             ]
         )
 
+Disclaimer_card2 =  dbc.Card(
+            [
+                html.Div("Note:  above functions will only produce for IfoA datasets which have select slider set to ultimate.  This functionality will be extended soon."),
+                html.Br()
+            ]
+        )
+
+
+Disclaimer_card3 =  dbc.Card(
+            [
+                html.Div("Note:  above charts are not yet linked up to the Dataset controls"),
+                html.Br()
+            ]
+        )
+
+
+
+
 #------------------------------------------------------------------------------------
 #                              CALLBACK FUNCTIONS
 #------------------------------------------------------------------------------------
@@ -867,14 +885,14 @@ column2 = dbc.Col(
                     children=[html.Div(style={"height": offset_value}),output_card2],
                     type="circle",
                 )
-                                                                ,html.Div(style={"height": offset_value}),html.Div(style={"height": offset_value}),Disclaimer_card
+                                                                ,html.Div(style={"height": offset_value}),html.Div(style={"height": offset_value}),Disclaimer_card2
                                                     ]
                                 
                                                                             ),
                                 dcc.Tab(label='3D',
                                 
                                 children =
-                                            [output_card3
+                                            [output_card3,Disclaimer_card3 
                                                 
 
 
